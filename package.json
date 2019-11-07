@@ -1,0 +1,47 @@
+{
+  "name": "rest-api",
+  "version": "1.0.0",
+  "description": "REST API Template App",
+  "homepage": "https://epifanovmd.github.io/rest-api-template-app",
+  "license": "MIT",
+  "author": {
+    "name": "Epifanov Andrei",
+    "email": "epifanovmd@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/epifanovmd/rest-api-template-app.git"
+  },
+  "scripts": {
+    "start": "nodemon",
+    "lint": "tslint -c tslint.json -p tsconfig.json"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-rate-limit": "^5.0.0",
+    "helmet": "^3.21.2",
+    "joi": "^14.3.1",
+    "morgan": "^1.9.1",
+    "nconf": "^0.10.0",
+    "pg": "^7.12.1",
+    "pg-hstore": "^2.3.3",
+    "sequelize": "^5.21.2",
+    "ts-node": "^8.4.1",
+    "winston": "^3.2.1"
+  },
+  "devDependencies": {
+    "@types/body-parser": "^1.17.1",
+    "@types/dotenv": "^8.2.0",
+    "@types/express": "^4.17.2",
+    "@types/helmet": "^0.0.45",
+    "@types/joi": "^14.3.4",
+    "@types/nconf": "^0.10.0",
+    "@types/node": "^12.12.6",
+    "@types/sequelize": "^4.28.6",
+    "@types/winston": "^2.4.4",
+    "tslint": "^5.20.1",
+    "typescript": "^3.7.2"
+  }
+}
