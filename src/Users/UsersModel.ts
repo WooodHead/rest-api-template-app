@@ -2,10 +2,10 @@ import * as Sequelize from "sequelize";
 import { Model } from "sequelize";
 import { sequelize } from "../db/db";
 
-export class UsersModel extends Model {
+export class Users extends Model {
 }
 
-UsersModel.init({
+Users.init({
   id: {
     type: Sequelize.INTEGER,
     autoIncrement: true,
@@ -22,13 +22,8 @@ UsersModel.init({
   },
 }, {
   sequelize,
-  modelName: "UsersModel",
+  modelName: "Users",
 });
 
-UsersModel.sync({force: true}).then(() => {
-  // Now the `users` table in the database corresponds to the model definition
-  return UsersModel.create({
-    name: "John",
-    description: "Hancock",
-  });
+Users.sync({}).then(() => {
 });

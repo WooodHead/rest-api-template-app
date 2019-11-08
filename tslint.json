@@ -3,7 +3,6 @@
     "tslint:latest"
   ],
   "rules": {
-    "react-hooks-nesting": "error",
     "trailing-comma": [
       true,
       {
@@ -33,8 +32,8 @@
       true,
       //      "call-signature",
       //      "arrow-call-signature",
-      //      "parameter",
-      //      "arrow-parameter",
+      //            "parameter",
+      //            "arrow-parameter",
       "property-declaration"
       //      "variable-declaration",
       //      "variable-declaration-ignore-function",
@@ -90,11 +89,6 @@
       true,
       "allow-fast-null-checks"
     ],
-    "no-unused-variable": [
-      true,
-      "react"
-    ],
-    "no-use-before-declare": true,
     "no-var-keyword": true,
     "no-void-expression": true,
     "restrict-plus-operands": true,
@@ -106,7 +100,6 @@
     //      "allow-null-check",
     //      "allow-undefined-check"
     //    ],
-    "typeof-compare": true,
     "use-isnan": true,
     // Maintainability
     "cyclomatic-complexity": true,
@@ -164,8 +157,7 @@
     //"prefer-method-signature": true,
     "quotemark": [
       true,
-      "double",
-      "jsx-double"
+      "double"
     ],
     "semicolon": [
       true,
@@ -179,7 +171,6 @@
       "allow-leading-underscore",
       "allow-pascal-case"
     ],
-    "jsx-curly-spacing": false,
     "whitespace": [
       true,
       "check-branch",
@@ -190,9 +181,6 @@
       "check-typecast",
       "check-preblock"
     ],
-    "jsx-no-bind": true,
-    "jsx-no-multiline-js": false,
-    "jsx-wrap-multiline": false,
     "no-console": false,
     "no-duplicate-imports": false,
     "member-access": false,

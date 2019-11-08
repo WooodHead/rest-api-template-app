@@ -1,23 +1,24 @@
-import { UsersModel } from "./UsersModel";
+import { FindOptions } from "sequelize";
+import { Users } from "./UsersModel";
 
 export const UsersService = {
-  getAllUsers: (options) => {
-    return UsersModel.findAll(options);
+  getAllUsers: (options: FindOptions) => {
+    return Users.findAll(options);
   },
 
-  getUsersById: (id) => {
-    return UsersModel.findByPk(id);
+  getUsersById: (id: number | string) => {
+    return Users.findByPk(id);
   },
 
-  createUser: (props: any) => {
-    return UsersModel.create(props);
+  createUser: (body) => {
+    return Users.create(body);
   },
 
-  updateUser: (id: number, props: any) => {
-    return UsersModel.update(props, {where: {id}});
+  updateUser: (id: number | string, body) => {
+    return Users.update(body, {where: {id}});
   },
 
-  deleteUser: (id: number) => {
-    return UsersModel.destroy({where: {id}});
+  deleteUser: (id: number | string) => {
+    return Users.destroy({where: {id}});
   },
 };

@@ -11,8 +11,8 @@ export const UserController = {
       });
   },
 
-  getUserById(req: Request, res: any, next: NextFunction) {
-    UsersService.getUsersById(+req.params.id)
+  getUserById(req: Request<{id: string}>, res: any, next: NextFunction) {
+    UsersService.getUsersById(req.params.id)
       .then((result) => {
         if (result) {
           return res.json(result);
@@ -26,8 +26,7 @@ export const UserController = {
   },
 
   createUser(req: Request, res: Response, next: NextFunction) {
-    // @ts-ignore
-    UsersService.createUser(req.value.body)
+    UsersService.createUser(req.body)
       .then((result) => res.json(result))
       .catch((err) => {
         apiErrorHandler(err, req, res, "Creation of User failed.");
@@ -35,8 +34,7 @@ export const UserController = {
   },
 
   updateUser(req: Request, res: Response, next: NextFunction) {
-    // @ts-ignore
-    UsersService.updateUser(+req.params.id, req.value.body)
+    UsersService.updateUser(req.params.id, req.body)
       .then((result) => res.json(result))
       .catch((err) => {
         apiErrorHandler(
@@ -49,7 +47,7 @@ export const UserController = {
   },
 
   deleteUser(req: Request, res: Response, next: NextFunction) {
-    UsersService.deleteUser(+req.params.id)
+    UsersService.deleteUser(req.params.id)
       .then((result) => res.json(result))
       .catch((err) => {
         apiErrorHandler(
