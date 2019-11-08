@@ -6,7 +6,7 @@ const config: Configuration = {
   name: "server",
   target: "node",
   mode: "development",
-  entry: path.resolve(__dirname, "server.ts"),
+  entry: path.resolve(__dirname, "src/server.ts"),
   output: {
     path: path.resolve(__dirname, "build"),
     filename: "server.js",

@@ -1,6 +1,6 @@
 import { Application } from "express";
 import { UsersRouter } from "./Users/routes";
 
-export const initRoutes = (app: Application) => {
+export const InitApiRoutes = (app: Application) => {
   app.use("/api/users", UsersRouter);
 };
