@@ -1,19 +1,33 @@
 import { NextFunction, Request, Response } from "express";
 import { apiErrorHandler } from "../handlers/errorHandler";
+import { IUsersDTO, toResult } from "./UsersModel";
 import { UsersService } from "./UsersService";
 
 export const UserController = {
   getAllUsers(req: Request, res: Response, next: NextFunction) {
-    UsersService.getAllUsers({})
-      .then((result) => res.json(result))
+    const attributes: (keyof IUsersDTO)[] = ["id", "name"];
+    const page = req.query.page > 0 ? req.query.page - 1 : req.query.page;
+    const limit = req.query.limit;
+    UsersService.getAllUsers({
+      attributes,
+      limit,
+      offset: limit ? page * limit : undefined,
+      order: [
+        ["createdAt", "DESC"],
+      ],
+    })
+      .then((result) => res.json(toResult(result)))
       .catch(apiErrorHandler(req, res));
   },
 
   getUserById(req: Request<{ id: string }>, res: any, next: NextFunction) {
-    UsersService.getUsersById(req.params.id)
+    const attributes: (keyof IUsersDTO)[] = ["id", "name"];
+    UsersService.getUsersById(req.params.id, {
+      attributes,
+    })
       .then((result) => {
         if (result) {
-          return res.json(result);
+          return res.json(toResult(result));
         } else {
           res.status(404).send(`User ${req.params.id} not found.`);
         }

@@ -2,12 +2,12 @@ import { FindOptions } from "sequelize";
 import { Users } from "./UsersModel";
 
 export const UsersService = {
-  getAllUsers: (options: FindOptions) => {
+  getAllUsers: (options?: FindOptions) => {
     return Users.findAll(options);
   },
 
-  getUsersById: (id: number | string) => {
-    return Users.findByPk(id);
+  getUsersById: (id: number | string, options?: FindOptions) => {
+    return Users.findByPk(id, options);
   },
 
   createUser: (body) => {
