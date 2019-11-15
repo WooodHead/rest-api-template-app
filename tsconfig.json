@@ -5,7 +5,10 @@
     "noImplicitAny": false,
     "sourceMap": true,
     "outDir": "build",
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "resolveJsonModule": true,
+    "strictNullChecks": true
   },
   "files.exclude": {
     "**/.git": true,

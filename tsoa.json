@@ -1,0 +1,25 @@
+{
+  "swagger": {
+    "schemes": ["http"],
+    "securityDefinitions": {
+      "api_key": {
+        "type": "apiKey",
+        "name": "access_token",
+        "in": "query"
+      }
+    },
+    "host": "localhost:5000",
+    "entryFile": "./src/routes.ts",
+    "outputDirectory": "./",
+    "specMerging": "recursive",
+    "specVersion": 3,
+    "noImplicitAdditionalProperties": "throw-on-extras"
+  },
+  "routes": {
+    "authenticationModule": "./src/middleware/authentication.ts",
+    "entryFile": "./src/controllers.ts",
+    "routesDir": "./src",
+    "basePath": "/",
+    "middleware": "express"
+  }
+}

@@ -1,0 +1,268 @@
+{
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"RegistrationBody": {
+				"properties": {
+					"username": {
+						"type": "string"
+					},
+					"firstName": {
+						"type": "string"
+					},
+					"lastName": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"username",
+					"firstName",
+					"lastName",
+					"email",
+					"password"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateUserBody": {
+				"properties": {
+					"firstName": {
+						"type": "string",
+						"nullable": true
+					},
+					"lastName": {
+						"type": "string",
+						"nullable": true
+					},
+					"email": {
+						"type": "string",
+						"nullable": true
+					},
+					"role": {
+						"type": "string",
+						"nullable": true
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			}
+		},
+		"securitySchemes": {
+			"api_key": {
+				"type": "apiKey",
+				"name": "access_token",
+				"in": "query"
+			}
+		}
+	},
+	"info": {
+		"title": "rest-api",
+		"version": "1.0.0",
+		"description": "REST API Template App",
+		"license": {
+			"name": "MIT"
+		}
+	},
+	"openapi": "3.0.0",
+	"paths": {
+		"/api/auth/registration": {
+			"post": {
+				"operationId": "Registration",
+				"responses": {
+					"200": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"additionalProperties": true,
+									"type": "object"
+								}
+							}
+						},
+						"description": "Ok"
+					}
+				},
+				"tags": [
+					"Authorization"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/RegistrationBody"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/users": {
+			"get": {
+				"operationId": "GetAllUsers",
+				"responses": {
+					"200": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"additionalProperties": true,
+										"type": "object"
+									},
+									"type": "array"
+								}
+							}
+						},
+						"description": "Ok"
+					}
+				},
+				"tags": [
+					"Users"
+				],
+				"security": [
+					{
+						"jwt": [
+							"Admin"
+						]
+					}
+				],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "limit",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/api/users/{id}": {
+			"get": {
+				"operationId": "GetUserById",
+				"responses": {
+					"200": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"additionalProperties": true,
+									"type": "object"
+								}
+							}
+						},
+						"description": "Ok"
+					}
+				},
+				"tags": [
+					"Users"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "UpdateUser",
+				"responses": {
+					"200": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"additionalProperties": true,
+									"type": "object"
+								}
+							}
+						},
+						"description": "Ok"
+					}
+				},
+				"tags": [
+					"Users"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateUserBody"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "DeleteUser",
+				"responses": {
+					"200": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "number",
+									"format": "double"
+								}
+							}
+						},
+						"description": "Ok"
+					}
+				},
+				"tags": [
+					"Users"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "http://localhost:5000/"
+		}
+	]
+}

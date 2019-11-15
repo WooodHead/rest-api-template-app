@@ -89,6 +89,7 @@
       true,
       "allow-fast-null-checks"
     ],
+    "strictNullChecks": true,
     "no-var-keyword": true,
     "no-void-expression": true,
     "restrict-plus-operands": true,
@@ -129,7 +130,7 @@
     "class-name": true,
     "import-spacing": true,
     "interface-name": [
-      true,
+      false,
       "always-prefix"
     ],
     "interface-over-type-literal": true,
