@@ -1,7 +1,7 @@
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../../db/db";
 
-export interface IUser {
+export interface IUserModel {
   id: string;
   username: string;
   firstName: string;
@@ -9,8 +9,19 @@ export interface IUser {
   email: string;
   role?: string;
 
+  passwordHash: string;
+  salt: string;
+
   createdAt?: Date | string;
   updatedAt?: Date | string;
+}
+
+export interface User {
+  id: string;
+  username: string;
+  firstName: string;
+  lastName: string;
+  email: string;
 }
 
 export interface RegistrationBody {
@@ -26,10 +37,6 @@ export interface LoginBody {
   password: string;
 }
 
-export interface Registration extends IUser {
-  passwordHash: string;
-  salt: string;
-}
 export interface UpdateUserBody {
   firstName?: string;
   lastName?: string;
@@ -98,5 +105,5 @@ Users.init({
   modelName: "Users",
 });
 
-Users.sync({ force: true }).then(() => {
+Users.sync({force: false}).then(() => {
 });

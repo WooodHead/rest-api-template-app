@@ -6,6 +6,34 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
+			"User": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"username": {
+						"type": "string"
+					},
+					"firstName": {
+						"type": "string"
+					},
+					"lastName": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"username",
+					"firstName",
+					"lastName",
+					"email"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"RegistrationBody": {
 				"properties": {
 					"username": {
@@ -29,6 +57,22 @@
 					"firstName",
 					"lastName",
 					"email",
+					"password"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"LoginBody": {
+				"properties": {
+					"username": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"username",
 					"password"
 				],
 				"type": "object",
@@ -83,8 +127,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"additionalProperties": true,
-									"type": "object"
+									"$ref": "#/components/schemas/User"
 								}
 							}
 						},
@@ -107,6 +150,37 @@
 				}
 			}
 		},
+		"/api/auth/login": {
+			"post": {
+				"operationId": "Login",
+				"responses": {
+					"200": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						},
+						"description": "Ok"
+					}
+				},
+				"tags": [
+					"Authorization"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/LoginBody"
+							}
+						}
+					}
+				}
+			}
+		},
 		"/api/users": {
 			"get": {
 				"operationId": "GetAllUsers",
@@ -116,8 +190,7 @@
 							"application/json": {
 								"schema": {
 									"items": {
-										"additionalProperties": true,
-										"type": "object"
+										"$ref": "#/components/schemas/User"
 									},
 									"type": "array"
 								}
@@ -129,13 +202,7 @@
 				"tags": [
 					"Users"
 				],
-				"security": [
-					{
-						"jwt": [
-							"Admin"
-						]
-					}
-				],
+				"security": [],
 				"parameters": [
 					{
 						"in": "query",
@@ -166,8 +233,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"additionalProperties": true,
-									"type": "object"
+									"$ref": "#/components/schemas/User"
 								}
 							}
 						},
@@ -196,8 +262,22 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"additionalProperties": true,
-									"type": "object"
+									"allOf": [
+										{
+											"properties": {
+												"role": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"role"
+											],
+											"type": "object"
+										},
+										{
+											"$ref": "#/components/schemas/User"
+										}
+									]
 								}
 							}
 						},
@@ -207,7 +287,13 @@
 				"tags": [
 					"Users"
 				],
-				"security": [],
+				"security": [
+					{
+						"jwt": [
+							"Admin"
+						]
+					}
+				],
 				"parameters": [
 					{
 						"in": "path",
@@ -246,7 +332,13 @@
 				"tags": [
 					"Users"
 				],
-				"security": [],
+				"security": [
+					{
+						"jwt": [
+							"Admin"
+						]
+					}
+				],
 				"parameters": [
 					{
 						"in": "path",
