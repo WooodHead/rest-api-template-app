@@ -3,12 +3,14 @@ import { ErrorType } from "../../common/errorType";
 import { ApiError } from "../../common/handlers/errorHandler";
 import { IUserModel, UpdateUserBody, Users } from "./UsersModel";
 
+type IGetAllusers = <T extends keyof Users>(options?: FindOptions<T>) => Promise<Pick<Users, T>[]>;
+
 export class UsersService {
-  getAllUsers = (options?: FindOptions): any => {
-    return Users.findAll(options);
+  getAllUsers: IGetAllusers = (options) => {
+    return Users.findAll(options).then((result) => result);
   };
 
-  getUsersByAttr = (options?: FindOptions): any => {
+  getUsersByAttr = (options?: FindOptions<keyof Users>): any => {
     return Users.findOne(options).then((result) => {
       if (result === null) {
         return Promise

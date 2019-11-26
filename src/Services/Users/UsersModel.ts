@@ -52,7 +52,7 @@ export class Users extends Model {
   public passwordHash: string;
   public salt: string;
   public role: string;
-  private id: number;
+  public id: number;
 
   // timestamps!
   private readonly createdAt: Date | string;
@@ -90,8 +90,7 @@ Users.init({
     validate: {
       isEmail: true,
     },
-  }
-  ,
+  },
   passwordHash: {
     type: DataTypes.STRING(100),
     allowNull: true,

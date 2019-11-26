@@ -189,10 +189,8 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"items": {
-										"$ref": "#/components/schemas/User"
-									},
-									"type": "array"
+									"additionalProperties": true,
+									"type": "object"
 								}
 							}
 						},

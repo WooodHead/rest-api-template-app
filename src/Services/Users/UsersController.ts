@@ -15,19 +15,16 @@ const {
 export class UsersController extends Controller {
 
   @Get()
-  getAllUsers(@Query("page") page?: number, @Query("limit") limit?: number): Promise<User[]> {
-    const attributes: (keyof IUserModel)[] = ["id", "username", "firstName", "lastName", "email"];
-
+  getAllUsers(@Query("page") page?: number, @Query("limit") limit?: number) {
     return getAllUsers(
       {
-        attributes,
         limit,
         offset: limit ? page && (page > 0 ? page - 1 : page) * limit : undefined,
         order: [
           ["createdAt", "DESC"],
         ],
       },
-    );
+    ).then((result) => result[0]);
   }
 
   @Get("{id}")
