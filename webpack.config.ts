@@ -1,6 +1,6 @@
 import * as path from "path";
 import { Configuration } from "webpack";
-import * as nodeExternals from "webpack-node-externals";
+import nodeExternals from "webpack-node-externals";
 
 const config: Configuration = {
   name: "server",
