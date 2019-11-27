@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Put, Query, Route, Security, Tags } from "tsoa";
-import { IUserModel, UpdateUserBody, User, Users } from "./UsersModel";
+import { UpdateUserBody, User, Users } from "./UsersModel";
 import { UsersService } from "./UsersService";
 
 const {
@@ -15,33 +15,19 @@ const {
 export class UsersController extends Controller {
 
   @Get()
-  getAllUsers(@Query("page") page?: number, @Query("limit") limit?: number) {
-    return getAllUsers(
-      {
-        limit,
-        offset: limit ? page && (page > 0 ? page - 1 : page) * limit : undefined,
-        order: [
-          ["createdAt", "DESC"],
-        ],
-      },
-    ).then((result) => result[0]);
+  getAllUsers(@Query("page") page?: number, @Query("limit") limit?: number): Promise<User[]> {
+    return getAllUsers(page, limit);
   }
 
   @Get("{id}")
   getUserById(id: string): Promise<User> {
-    const attributes: (keyof IUserModel)[] = ["id", "username", "firstName", "lastName", "email"];
-
-    return getUsersById(id, {
-      attributes,
-    });
+    return getUsersById(id);
   }
 
   @Security("jwt", ["Admin"])
   @Put("/{id}")
   updateUser(id: string, @Body() body: UpdateUserBody): Promise<{ role: string } & User> {
-    const attributes: (keyof IUserModel)[] = ["id", "username", "firstName", "lastName", "email", "role"];
-
-    return updateUser(id, body, {attributes});
+    return updateUser(id, body);
   }
 
   @Security("jwt", ["Admin"])

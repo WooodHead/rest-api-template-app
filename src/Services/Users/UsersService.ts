@@ -1,17 +1,26 @@
-import { FindOptions } from "sequelize";
+import { WhereOptions } from "sequelize";
 import { ErrorType } from "../../common/errorType";
 import { ApiError } from "../../common/handlers/errorHandler";
 import { IUserModel, UpdateUserBody, Users } from "./UsersModel";
 
-type IGetAllusers = <T extends keyof Users>(options?: FindOptions<T>) => Promise<Pick<Users, T>[]>;
-
 export class UsersService {
-  getAllUsers: IGetAllusers = (options) => {
-    return Users.findAll(options).then((result) => result);
+  getAllUsers = (page?: number, limit?: number) => {
+    return Users.findAll(
+      {
+        limit,
+        attributes: ["id", "username", "firstName", "lastName"],
+        offset: limit ? page && (page > 0 ? page - 1 : page) * limit : undefined,
+        order: [
+          ["createdAt", "DESC"],
+        ],
+      },
+    );
   };
 
-  getUsersByAttr = (options?: FindOptions<keyof Users>): any => {
-    return Users.findOne(options).then((result) => {
+  getUsersByAttr = (where: WhereOptions) => {
+    return Users.findOne({
+      where,
+    }).then((result) => {
       if (result === null) {
         return Promise
           .reject(
@@ -24,8 +33,10 @@ export class UsersService {
       Promise.reject(new ApiError("ServerError", 500, ErrorType.DataBaseErrorException, e.message)));
   };
 
-  getUsersById = (id: number | string, options?: FindOptions): any => {
-    return Users.findByPk(id, options).then((result) => {
+  getUsersById = (id: number | string) => {
+    return Users.findByPk(id, {
+      attributes: ["id", "username", "firstName", "lastName", "email", "role"],
+    }).then((result) => {
       if (result === null) {
         return Promise
           .reject(
@@ -44,9 +55,9 @@ export class UsersService {
         Promise.reject(new ApiError("ServerError", 500, ErrorType.DataBaseErrorException, e.message)));
   };
 
-  updateUser = (id: number | string, body: UpdateUserBody, options?: FindOptions): any => {
+  updateUser = (id: number | string, body: UpdateUserBody) => {
     return Users.update(body, {where: {id}})
-      .then(() => this.getUsersById(id, options), (e) =>
+      .then(() => this.getUsersById(id), (e) =>
         Promise.reject(new ApiError("ServerError", 500, ErrorType.DataBaseErrorException, e.message)));
   };
 

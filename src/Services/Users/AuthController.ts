@@ -6,7 +6,7 @@ import * as uuid from "uuid";
 import { jwtSecretKey } from "../../common/constants";
 import { ErrorType } from "../../common/errorType";
 import { ApiError } from "../../common/handlers/errorHandler";
-import { IUserModel, LoginBody, RegistrationBody, User } from "./UsersModel";
+import { LoginBody, RegistrationBody, User } from "./UsersModel";
 import { UsersService } from "./UsersService";
 
 const {
@@ -20,13 +20,10 @@ const {
 export class AuthController extends Controller {
   @Post("/registration")
   registration(@Body() body: RegistrationBody): Promise<User> {
-
     const {email, firstName, lastName, username, password} = body;
-
     if (!email) {
       return Promise.reject(new ApiError("ValidateException", 400, ErrorType.ValidateException, "Email is note valid"));
     }
-
     const salt = uuid();
     const passwordHash = sha256(password + salt);
     const id = uuid();
@@ -41,9 +38,7 @@ export class AuthController extends Controller {
       passwordHash,
       role: "User",
     }).then(() => {
-      const attributes: (keyof IUserModel)[] = ["id", "username", "firstName", "lastName", "email"];
-
-      return getUsersById(id, {attributes});
+      return getUsersById(id);
     });
   }
 
@@ -52,9 +47,7 @@ export class AuthController extends Controller {
 
     const {username, password} = body;
 
-    return getUsersByAttr({
-      where: {username},
-    })
+    return getUsersByAttr({username})
       .then((result) => {
         let token = "";
         if (result) {

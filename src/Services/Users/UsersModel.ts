@@ -52,7 +52,7 @@ export class Users extends Model {
   public passwordHash: string;
   public salt: string;
   public role: string;
-  public id: number;
+  public id: string;
 
   // timestamps!
   private readonly createdAt: Date | string;
