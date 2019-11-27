@@ -1,30 +1,15 @@
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../../db/db";
 
-export interface IUserModel {
-  id: string;
-  username: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  role?: string;
-
-  passwordHash: string;
-  salt: string;
-
-  createdAt?: Date | string;
-  updatedAt?: Date | string;
-}
-
 export interface User {
   id: string;
   username: string;
   firstName: string;
   lastName: string;
-  email: string;
+  // email: string;
 }
 
-export interface RegistrationBody {
+export interface Registration {
   username: string;
   firstName: string;
   lastName: string;
@@ -32,12 +17,12 @@ export interface RegistrationBody {
   password: string;
 }
 
-export interface LoginBody {
+export interface Login {
   username: string;
   password: string;
 }
 
-export interface UpdateUserBody {
+export interface UpdateUser {
   firstName?: string;
   lastName?: string;
   email?: string;

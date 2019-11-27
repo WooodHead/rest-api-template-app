@@ -1,6 +1,8 @@
 {
   "swagger": {
-    "schemes": ["http"],
+    "schemes": [
+      "http"
+    ],
     "securityDefinitions": {
       "api_key": {
         "type": "apiKey",
@@ -20,6 +22,6 @@
     "entryFile": "./src/controllers.ts",
     "routesDir": "./src",
     "basePath": "/",
-    "middleware": "express"
+    "middleware": "koa"
   }
 }

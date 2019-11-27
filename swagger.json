@@ -19,22 +19,18 @@
 					},
 					"lastName": {
 						"type": "string"
-					},
-					"email": {
-						"type": "string"
 					}
 				},
 				"required": [
 					"id",
 					"username",
 					"firstName",
-					"lastName",
-					"email"
+					"lastName"
 				],
 				"type": "object",
 				"additionalProperties": false
 			},
-			"RegistrationBody": {
+			"Registration": {
 				"properties": {
 					"username": {
 						"type": "string"
@@ -62,7 +58,7 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"LoginBody": {
+			"Login": {
 				"properties": {
 					"username": {
 						"type": "string"
@@ -78,7 +74,37 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"UpdateUserBody": {
+			"BasePageResultUser": {
+				"properties": {
+					"count": {
+						"type": "number",
+						"format": "double"
+					},
+					"page": {
+						"type": "number",
+						"format": "double",
+						"nullable": true
+					},
+					"limit": {
+						"type": "number",
+						"format": "double",
+						"nullable": true
+					},
+					"items": {
+						"items": {
+							"$ref": "#/components/schemas/User"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"count",
+					"items"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateUser": {
 				"properties": {
 					"firstName": {
 						"type": "string",
@@ -143,7 +169,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/RegistrationBody"
+								"$ref": "#/components/schemas/Registration"
 							}
 						}
 					}
@@ -174,7 +200,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/LoginBody"
+								"$ref": "#/components/schemas/Login"
 							}
 						}
 					}
@@ -189,10 +215,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"items": {
-										"$ref": "#/components/schemas/User"
-									},
-									"type": "array"
+									"$ref": "#/components/schemas/BasePageResultUser"
 								}
 							}
 						},
@@ -243,7 +266,13 @@
 				"tags": [
 					"Users"
 				],
-				"security": [],
+				"security": [
+					{
+						"jwt": [
+							"Admin"
+						]
+					}
+				],
 				"parameters": [
 					{
 						"in": "path",
@@ -287,13 +316,7 @@
 				"tags": [
 					"Users"
 				],
-				"security": [
-					{
-						"jwt": [
-							"Admin"
-						]
-					}
-				],
+				"security": [],
 				"parameters": [
 					{
 						"in": "path",
@@ -308,7 +331,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/UpdateUserBody"
+								"$ref": "#/components/schemas/UpdateUser"
 							}
 						}
 					}

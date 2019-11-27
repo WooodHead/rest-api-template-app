@@ -5,6 +5,7 @@
     "noImplicitAny": false,
     "sourceMap": true,
     "outDir": "build",
+    "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "resolveJsonModule": true,

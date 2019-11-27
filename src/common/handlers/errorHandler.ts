@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { Context, Next } from "koa";
 
 export class ApiError extends Error {
   private statusCode: number;
@@ -12,10 +12,14 @@ export class ApiError extends Error {
   }
 }
 
-export const errorHandler = (err: any, req: Request, res: Response, next: NextFunction) => {
-  res.status(err.statusCode || 500)
-    .json({
+export const errorHandler = async (ctx: Context, next: Next) => {
+  try {
+    await next();
+  } catch (err) {
+    ctx.status = (err.statusCode || 500);
+    ctx.body = {
       message: err.message,
       error: err,
-    });
+    };
+  }
 };

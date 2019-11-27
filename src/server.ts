@@ -1,47 +1,49 @@
-import * as bodyParser from "body-parser";
-import * as cookieParser from "cookie-parser";
-import * as express from "express";
-import { Express, Request, Response } from "express";
-import * as rateLimit from "express-rate-limit";
-import * as helmet from "helmet";
-import * as swaggerUi from "swagger-ui-express";
-import * as swaggerDocument from "../swagger.json";
-import { ErrorType } from "./common/errorType";
-import { ApiError, errorHandler } from "./common/handlers/errorHandler";
+import Koa from "koa";
+import bodyParser from "koa-bodyparser";
+import helmet from "koa-helmet";
+import KoaRouter from "koa-router";
+import { RateLimit } from "koa2-ratelimit";
+import koaSwagger from "koa2-swagger-ui";
+import swaggerDoc from "../swagger.json";
+import { errorHandler } from "./common/handlers/errorHandler";
+import { notFoundHandler } from "./common/handlers/notFoundHandler";
 import { RegisterRoutes } from "./routes";
 
 const PORT = 5000;
-
-const limiter = rateLimit({
-  max: 100, // limit each IP to 100 requests per windowMs
-  windowMs: 15 * 60 * 1000, // 15 minutes
-});
-const app: Express = express();
+const app = new Koa();
 
 // middleware
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(bodyParser.json());
-app.use(cookieParser());
+app.use(RateLimit.middleware({
+  interval: 15 * 60 * 1000, // 15 minutes
+  max: 100,
+}));
+
+app.use(bodyParser({
+  detectJSON: (ctx) => {
+    return /\.json$/i.test(ctx.path);
+  },
+}));
 app.use(helmet());
 
-app.use(limiter);
-
 // Services routes
-RegisterRoutes(app);
+const router = new KoaRouter();
+router.get("/api-docs", koaSwagger({
+  routePrefix: false,
+  swaggerOptions: {
+    showRequestHeaders: true,
+    spec: swaggerDoc,
+    jsonEditor: true,
+    hideTopbar: true,
+  },
+}));
+RegisterRoutes(router);
 
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app
+  .use(errorHandler)
+  .use(router.routes())
+  .use(router.allowedMethods())
+  .use(notFoundHandler);
 
-app.use("*", (req: Request, res: Response) => {
-  res
-    .status(404)
-    .send(new ApiError("Route not found", 404, ErrorType.RouteNotFoundException));
-});
-
-app.use(errorHandler);
-
-app.listen(PORT, "localhost", (err: any) => {
-  if (err) {
-    return err;
-  }
+app.listen(PORT, "localhost", () => {
   console.info(`REST API Server running on : http://localhost:${PORT}`);
 });

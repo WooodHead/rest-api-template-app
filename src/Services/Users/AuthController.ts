@@ -1,12 +1,10 @@
 import { sign } from "jsonwebtoken";
-import { Promise } from "sequelize";
-import * as sha256 from "sha256";
+import sha256 from "sha256";
 import { Body, Controller, Post, Route, Tags } from "tsoa";
-import * as uuid from "uuid";
 import { jwtSecretKey } from "../../common/constants";
 import { ErrorType } from "../../common/errorType";
 import { ApiError } from "../../common/handlers/errorHandler";
-import { LoginBody, RegistrationBody, User } from "./UsersModel";
+import { Login, Registration, User } from "./UsersModel";
 import { UsersService } from "./UsersService";
 
 const {
@@ -19,31 +17,19 @@ const {
 @Route("api/auth")
 export class AuthController extends Controller {
   @Post("/registration")
-  registration(@Body() body: RegistrationBody): Promise<User> {
-    const {email, firstName, lastName, username, password} = body;
+  registration(@Body() body: Registration): Promise<User> {
+    const {email} = body;
     if (!email) {
       return Promise.reject(new ApiError("ValidateException", 400, ErrorType.ValidateException, "Email is note valid"));
     }
-    const salt = uuid();
-    const passwordHash = sha256(password + salt);
-    const id = uuid();
 
-    return createUser({
-      id,
-      email,
-      firstName,
-      lastName,
-      username,
-      salt,
-      passwordHash,
-      role: "User",
-    }).then(() => {
-      return getUsersById(id);
+    return createUser(body).then((result) => {
+      return getUsersById(result.dataValues.id);
     });
   }
 
   @Post("/login")
-  login(@Body() body: LoginBody): Promise<string> {
+  login(@Body() body: Login): Promise<string> {
 
     const {username, password} = body;
 

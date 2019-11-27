@@ -6,8 +6,8 @@ import { Controller, ValidationService, FieldErrors, ValidateError, TsoaRoute } 
 import { AuthController } from './Services/Users/AuthController';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { UsersController } from './Services/Users/UsersController';
-import { expressAuthentication } from './middleware/authentication';
-import * as express from 'express';
+import { koaAuthentication } from './middleware/authentication';
+import * as KoaRouter from 'koa-router';
 
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
@@ -19,12 +19,11 @@ const models: TsoaRoute.Models = {
             "username": { "dataType": "string", "required": true },
             "firstName": { "dataType": "string", "required": true },
             "lastName": { "dataType": "string", "required": true },
-            "email": { "dataType": "string", "required": true },
         },
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "RegistrationBody": {
+    "Registration": {
         "dataType": "refObject",
         "properties": {
             "username": { "dataType": "string", "required": true },
@@ -36,7 +35,7 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "LoginBody": {
+    "Login": {
         "dataType": "refObject",
         "properties": {
             "username": { "dataType": "string", "required": true },
@@ -45,7 +44,18 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "UpdateUserBody": {
+    "BasePageResultUser": {
+        "dataType": "refObject",
+        "properties": {
+            "count": { "dataType": "double", "required": true },
+            "page": { "dataType": "double" },
+            "limit": { "dataType": "double" },
+            "items": { "dataType": "array", "array": { "ref": "User" }, "required": true },
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "UpdateUser": {
         "dataType": "refObject",
         "properties": {
             "firstName": { "dataType": "string" },
@@ -61,173 +71,165 @@ const validationService = new ValidationService(models);
 
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
-export function RegisterRoutes(app: express.Express) {
+export function RegisterRoutes(router: KoaRouter) {
     // ###########################################################################################################
     //  NOTE: If you do not see routes for all of your controllers in this file, then you might not have informed tsoa of where to look
     //      Please look into the "controllerPathGlobs" config option described in the readme: https://github.com/lukeautry/tsoa
     // ###########################################################################################################
-    app.post('/api/auth/registration',
-        function(request: any, response: any, next: any) {
+    router.post('/api/auth/registration',
+        async (context: any, next: any) => {
             const args = {
-                body: { "in": "body", "name": "body", "required": true, "ref": "RegistrationBody" },
+                body: { "in": "body", "name": "body", "required": true, "ref": "Registration" },
             };
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
             let validatedArgs: any[] = [];
             try {
-                validatedArgs = getValidatedArgs(args, request);
-            } catch (err) {
-                return next(err);
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status;
+                context.throw(error.status, JSON.stringify({ fields: error.fields }));
             }
 
             const controller = new AuthController();
-
 
             const promise = controller.registration.apply(controller, validatedArgs as any);
-            promiseHandler(controller, promise, response, next);
+            return promiseHandler(controller, promise, context, next);
         });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    app.post('/api/auth/login',
-        function(request: any, response: any, next: any) {
+    router.post('/api/auth/login',
+        async (context: any, next: any) => {
             const args = {
-                body: { "in": "body", "name": "body", "required": true, "ref": "LoginBody" },
+                body: { "in": "body", "name": "body", "required": true, "ref": "Login" },
             };
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
             let validatedArgs: any[] = [];
             try {
-                validatedArgs = getValidatedArgs(args, request);
-            } catch (err) {
-                return next(err);
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status;
+                context.throw(error.status, JSON.stringify({ fields: error.fields }));
             }
 
             const controller = new AuthController();
 
-
             const promise = controller.login.apply(controller, validatedArgs as any);
-            promiseHandler(controller, promise, response, next);
+            return promiseHandler(controller, promise, context, next);
         });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    app.get('/api/users',
-        function(request: any, response: any, next: any) {
+    router.get('/api/users',
+        async (context: any, next: any) => {
             const args = {
                 page: { "in": "query", "name": "page", "dataType": "double" },
                 limit: { "in": "query", "name": "limit", "dataType": "double" },
             };
 
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
             let validatedArgs: any[] = [];
             try {
-                validatedArgs = getValidatedArgs(args, request);
-            } catch (err) {
-                return next(err);
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status;
+                context.throw(error.status, JSON.stringify({ fields: error.fields }));
             }
 
             const controller = new UsersController();
-
 
             const promise = controller.getAllUsers.apply(controller, validatedArgs as any);
-            promiseHandler(controller, promise, response, next);
+            return promiseHandler(controller, promise, context, next);
         });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    app.get('/api/users/:id',
-        function(request: any, response: any, next: any) {
+    router.get('/api/users/:id',
+        authenticateMiddleware([{ "jwt": ["Admin"] }]),
+        async (context: any, next: any) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
             };
 
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
             let validatedArgs: any[] = [];
             try {
-                validatedArgs = getValidatedArgs(args, request);
-            } catch (err) {
-                return next(err);
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status;
+                context.throw(error.status, JSON.stringify({ fields: error.fields }));
             }
 
             const controller = new UsersController();
-
 
             const promise = controller.getUserById.apply(controller, validatedArgs as any);
-            promiseHandler(controller, promise, response, next);
+            return promiseHandler(controller, promise, context, next);
         });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    app.put('/api/users/:id',
-        authenticateMiddleware([{ "jwt": ["Admin"] }]),
-        function(request: any, response: any, next: any) {
+    router.put('/api/users/:id',
+        async (context: any, next: any) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
-                body: { "in": "body", "name": "body", "required": true, "ref": "UpdateUserBody" },
+                body: { "in": "body", "name": "body", "required": true, "ref": "UpdateUser" },
             };
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
             let validatedArgs: any[] = [];
             try {
-                validatedArgs = getValidatedArgs(args, request);
-            } catch (err) {
-                return next(err);
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status;
+                context.throw(error.status, JSON.stringify({ fields: error.fields }));
             }
 
             const controller = new UsersController();
-
 
             const promise = controller.updateUser.apply(controller, validatedArgs as any);
-            promiseHandler(controller, promise, response, next);
+            return promiseHandler(controller, promise, context, next);
         });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    app.delete('/api/users/:id',
+    router.delete('/api/users/:id',
         authenticateMiddleware([{ "jwt": ["Admin"] }]),
-        function(request: any, response: any, next: any) {
+        async (context: any, next: any) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
             };
 
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
             let validatedArgs: any[] = [];
             try {
-                validatedArgs = getValidatedArgs(args, request);
-            } catch (err) {
-                return next(err);
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status;
+                context.throw(error.status, JSON.stringify({ fields: error.fields }));
             }
 
             const controller = new UsersController();
 
-
             const promise = controller.deleteUser.apply(controller, validatedArgs as any);
-            promiseHandler(controller, promise, response, next);
+            return promiseHandler(controller, promise, context, next);
         });
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
     function authenticateMiddleware(security: TsoaRoute.Security[] = []) {
-        return (request: any, _response: any, next: any) => {
+        return async (context: any, next: any) => {
             let responded = 0;
             let success = false;
 
-            const succeed = function(user: any) {
+            const succeed = async (user: any) => {
                 if (!success) {
                     success = true;
                     responded++;
-                    request['user'] = user;
-                    next();
+                    context.request['user'] = user;
+                    await next();
                 }
-            }
+            };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
-            const fail = function(error: any) {
+            const fail = async (error: any) => {
                 responded++;
                 if (responded == security.length && !success) {
-                    error.status = error.status || 401;
-                    next(error)
+                    // this is an authentication error
+                    context.status = error.status || 401;
+                    context.throw(context.status, error.message, error);
+                } else if (success) {
+                    // the authentication was a success but arriving here means the controller
+                    // probably threw an error that we caught as well
+                    // so just pass it on
+                    throw error;
                 }
-            }
+            };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
@@ -236,15 +238,15 @@ export function RegisterRoutes(app: express.Express) {
                     let promises: Promise<any>[] = [];
 
                     for (const name in secMethod) {
-                        promises.push(expressAuthentication(request, name, secMethod[name]));
+                        promises.push(koaAuthentication(context.request, name, secMethod[name]));
                     }
 
-                    Promise.all(promises)
-                        .then((users) => { succeed(users[0]); })
+                    return Promise.all(promises)
+                        .then((users) => succeed(users[0]))
                         .catch(fail);
                 } else {
                     for (const name in secMethod) {
-                        expressAuthentication(request, name, secMethod[name])
+                        return koaAuthentication(context.request, name, secMethod[name])
                             .then(succeed)
                             .catch(fail);
                     }
@@ -259,54 +261,60 @@ export function RegisterRoutes(app: express.Express) {
         return 'getHeaders' in object && 'getStatus' in object && 'setStatus' in object;
     }
 
-    function promiseHandler(controllerObj: any, promise: any, response: any, next: any) {
+    function promiseHandler(controllerObj: any, promise: Promise<any>, context: any, next: () => Promise<any>) {
         return Promise.resolve(promise)
             .then((data: any) => {
-                let statusCode;
-                if (isController(controllerObj)) {
-                    const headers = controllerObj.getHeaders();
-                    Object.keys(headers).forEach((name: string) => {
-                        response.set(name, headers[name]);
-                    });
-
-                    statusCode = controllerObj.getStatus();
+                if (data || data === false) {
+                    context.body = data;
+                    context.status = 200;
+                } else {
+                    context.status = 204;
                 }
 
                 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
-                if (data || data === false) { // === false allows boolean result
-                    response.status(statusCode || 200).json(data);
-                } else {
-                    response.status(statusCode || 204).end();
+                if (isController(controllerObj)) {
+                    const headers = controllerObj.getHeaders();
+                    Object.keys(headers).forEach((name: string) => {
+                        context.set(name, headers[name]);
+                    });
+
+                    const statusCode = controllerObj.getStatus();
+                    if (statusCode) {
+                        context.status = statusCode;
+                    }
                 }
+                return next();
             })
-            .catch((error: any) => next(error));
+            .catch((error: any) => {
+                context.status = error.status || 500;
+                context.throw(context.status, error.message, error);
+            });
     }
 
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
-    function getValidatedArgs(args: any, request: any): any[] {
-        const fieldErrors: FieldErrors = {};
-        const values = Object.keys(args).map((key) => {
+    function getValidatedArgs(args: any, context: any): any[] {
+        const errorFields: FieldErrors = {};
+        const values = Object.keys(args).map(key => {
             const name = args[key].name;
             switch (args[key].in) {
                 case 'request':
-                    return request;
+                    return context.request;
                 case 'query':
-                    return validationService.ValidateParam(args[key], request.query[name], name, fieldErrors, undefined, { "noImplicitAdditionalProperties": "throw-on-extras", "specVersion": 3 });
+                    return validationService.ValidateParam(args[key], context.request.query[name], name, errorFields, undefined, { "noImplicitAdditionalProperties": "throw-on-extras", "specVersion": 3 });
                 case 'path':
-                    return validationService.ValidateParam(args[key], request.params[name], name, fieldErrors, undefined, { "noImplicitAdditionalProperties": "throw-on-extras", "specVersion": 3 });
+                    return validationService.ValidateParam(args[key], context.params[name], name, errorFields, undefined, { "noImplicitAdditionalProperties": "throw-on-extras", "specVersion": 3 });
                 case 'header':
-                    return validationService.ValidateParam(args[key], request.header(name), name, fieldErrors, undefined, { "noImplicitAdditionalProperties": "throw-on-extras", "specVersion": 3 });
+                    return validationService.ValidateParam(args[key], context.request.headers[name], name, errorFields, undefined, { "noImplicitAdditionalProperties": "throw-on-extras", "specVersion": 3 });
                 case 'body':
-                    return validationService.ValidateParam(args[key], request.body, name, fieldErrors, name + '.', { "noImplicitAdditionalProperties": "throw-on-extras", "specVersion": 3 });
+                    return validationService.ValidateParam(args[key], context.request.body, name, errorFields, name + '.', { "noImplicitAdditionalProperties": "throw-on-extras", "specVersion": 3 });
                 case 'body-prop':
-                    return validationService.ValidateParam(args[key], request.body[name], name, fieldErrors, 'body.', { "noImplicitAdditionalProperties": "throw-on-extras", "specVersion": 3 });
+                    return validationService.ValidateParam(args[key], context.request.body[name], name, errorFields, 'body.', { "noImplicitAdditionalProperties": "throw-on-extras", "specVersion": 3 });
             }
         });
-
-        if (Object.keys(fieldErrors).length > 0) {
-            throw new ValidateError(fieldErrors, '');
+        if (Object.keys(errorFields).length > 0) {
+            throw new ValidateError(errorFields, '');
         }
         return values;
     }
