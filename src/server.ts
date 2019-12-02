@@ -35,7 +35,6 @@ router.get("/api-docs", koaSwagger({
     showRequestHeaders: true,
     spec: swaggerDoc,
     jsonEditor: true,
-    hideTopbar: true,
   },
 }));
 RegisterRoutes(router);
