@@ -2,6 +2,7 @@ import Koa from "koa";
 import bodyParser from "koa-bodyparser";
 import helmet from "koa-helmet";
 import KoaRouter from "koa-router";
+import cors from "koa2-cors";
 import { RateLimit } from "koa2-ratelimit";
 import koaSwagger from "koa2-swagger-ui";
 import swaggerDoc from "../swagger.json";
@@ -24,6 +25,7 @@ app.use(bodyParser({
   },
 }));
 app.use(helmet());
+app.use(cors());
 
 // Services routes
 const router = new KoaRouter();
