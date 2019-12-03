@@ -29,4 +29,4 @@ const config: Configuration = {
   plugins: [],
 };
 
-module.exports = (env) => config;
+module.exports = config;
