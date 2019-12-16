@@ -4,7 +4,7 @@ import { Body, Controller, Post, Route, Tags } from "tsoa";
 import { jwtSecretKey } from "../../common/constants";
 import { ErrorType } from "../../common/errorType";
 import { ApiError } from "../../common/handlers/errorHandler";
-import { Login, Registration, User } from "./UsersModel";
+import { Login, Registration, UserDto } from "./UsersModel";
 import { UsersService } from "./UsersService";
 
 const {
@@ -17,7 +17,7 @@ const {
 @Route("api/auth")
 export class AuthController extends Controller {
   @Post("/registration")
-  registration(@Body() body: Registration): Promise<User> {
+  registration(@Body() body: Registration): Promise<UserDto> {
     const {email} = body;
     if (!email) {
       return Promise.reject(new ApiError("ValidateException", 400, ErrorType.ValidateException, "Email is note valid"));
@@ -37,9 +37,10 @@ export class AuthController extends Controller {
       .then((result) => {
         let token = "";
         if (result) {
-          const {salt, passwordHash, role} = result;
+          const {salt, passwordHash, role, id} = result;
           if (passwordHash === sha256(password + salt)) {
             token = sign({
+              id,
               role,
             }, jwtSecretKey, {algorithm: "HS256", expiresIn: "24h"});
             this.setHeader("set-cookie", `token=${token};path=/;HttpOnly`);

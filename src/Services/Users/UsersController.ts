@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Put, Query, Route, Security, Tags } from
 import { ErrorType } from "../../common/errorType";
 import { ApiError } from "../../common/handlers/errorHandler";
 import { BasePageResult } from "../../dto/BasePageResult";
-import { UpdateUser, User, Users } from "./UsersModel";
+import { UpdateUser, UserDto, Users } from "./UsersModel";
 import { UsersService } from "./UsersService";
 
 const {
@@ -17,7 +17,7 @@ const {
 export class UsersController extends Controller {
 
   @Get()
-  getAllUsers(@Query("page") page?: number, @Query("limit") limit?: number): Promise<BasePageResult<User>> {
+  getAllUsers(@Query("page") page?: number, @Query("limit") limit?: number): Promise<BasePageResult<UserDto>> {
     try {
       return getAllUsers(page, limit).then((result) => ({
         page,
@@ -29,18 +29,18 @@ export class UsersController extends Controller {
       return Promise.reject(new ApiError("", 500, ErrorType.DataBaseErrorException));
     }
   }
-  @Security("jwt", ["Admin"])
+  // @Security("jwt", ["Admin"])
   @Get("{id}")
-  getUserById(id: string): Promise<User> {
+  getUserById(id: string): Promise<UserDto> {
     return getUsersById(id);
   }
 
   @Put("/{id}")
-  updateUser(id: string, @Body() body: UpdateUser): Promise<{ role: string } & User> {
+  updateUser(id: string, @Body() body: UpdateUser): Promise<{ role: string } & UserDto> {
     return updateUser(id, body);
   }
 
-  @Security("jwt", ["Admin"])
+  // @Security("jwt", ["Admin"])
   @Delete("/{id}")
   deleteUser(id: string): Promise<number> {
     return deleteUser(id);

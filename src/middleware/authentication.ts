@@ -5,9 +5,9 @@ import { ErrorType } from "../common/errorType";
 import { ApiError } from "../common/handlers/errorHandler";
 
 export function koaAuthentication(request: Request, securityName: string, scopes?: string[]): Promise<any> {
-  if (securityName === "jwt") {
-    const token = request.ctx.cookies.get("token");
+  const token = request.ctx.cookies.get("token");
 
+  if (securityName === "jwt") {
     return new Promise((resolve, reject) => {
       if (!token) {
         reject(

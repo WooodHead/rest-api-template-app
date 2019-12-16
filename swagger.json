@@ -6,7 +6,139 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
-			"User": {
+			"CommentDto": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"comment": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"comment"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"BasePageResultCommentDto": {
+				"properties": {
+					"count": {
+						"type": "number",
+						"format": "double"
+					},
+					"page": {
+						"type": "number",
+						"format": "double",
+						"nullable": true
+					},
+					"limit": {
+						"type": "number",
+						"format": "double",
+						"nullable": true
+					},
+					"items": {
+						"items": {
+							"$ref": "#/components/schemas/CommentDto"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"count",
+					"items"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Comment": {
+				"properties": {
+					"comment": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"comment"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"PostDto": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"name": {
+						"type": "string"
+					},
+					"subject": {
+						"type": "string"
+					},
+					"body": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"name",
+					"subject",
+					"body"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"BasePageResultPostDto": {
+				"properties": {
+					"count": {
+						"type": "number",
+						"format": "double"
+					},
+					"page": {
+						"type": "number",
+						"format": "double",
+						"nullable": true
+					},
+					"limit": {
+						"type": "number",
+						"format": "double",
+						"nullable": true
+					},
+					"items": {
+						"items": {
+							"$ref": "#/components/schemas/PostDto"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"count",
+					"items"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"IPost": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"subject": {
+						"type": "string"
+					},
+					"body": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"name",
+					"subject",
+					"body"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UserDto": {
 				"properties": {
 					"id": {
 						"type": "string"
@@ -19,13 +151,17 @@
 					},
 					"lastName": {
 						"type": "string"
+					},
+					"email": {
+						"type": "string"
 					}
 				},
 				"required": [
 					"id",
 					"username",
 					"firstName",
-					"lastName"
+					"lastName",
+					"email"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -74,7 +210,7 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"BasePageResultUser": {
+			"BasePageResultUserDto": {
 				"properties": {
 					"count": {
 						"type": "number",
@@ -92,7 +228,7 @@
 					},
 					"items": {
 						"items": {
-							"$ref": "#/components/schemas/User"
+							"$ref": "#/components/schemas/UserDto"
 						},
 						"type": "array"
 					}
@@ -145,6 +281,413 @@
 	},
 	"openapi": "3.0.0",
 	"paths": {
+		"/api/comments": {
+			"get": {
+				"operationId": "GetAllComments",
+				"responses": {
+					"200": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BasePageResultCommentDto"
+								}
+							}
+						},
+						"description": "Ok"
+					}
+				},
+				"tags": [
+					"Comments"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "limit",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "my",
+						"required": false,
+						"schema": {
+							"type": "boolean"
+						}
+					},
+					{
+						"in": "query",
+						"name": "postId",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			},
+			"post": {
+				"operationId": "CreateComment",
+				"responses": {
+					"200": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/CommentDto"
+								}
+							}
+						},
+						"description": "Ok"
+					}
+				},
+				"tags": [
+					"Comments"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "postId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Comment"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/comments/{id}": {
+			"get": {
+				"operationId": "GetCommentById",
+				"responses": {
+					"200": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/CommentDto"
+								}
+							}
+						},
+						"description": "Ok"
+					}
+				},
+				"tags": [
+					"Comments"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "UpdateComment",
+				"responses": {
+					"200": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/CommentDto"
+								}
+							}
+						},
+						"description": "Ok"
+					}
+				},
+				"tags": [
+					"Comments"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Comment"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "DeleteComment",
+				"responses": {
+					"200": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "number",
+									"format": "double"
+								}
+							}
+						},
+						"description": "Ok"
+					}
+				},
+				"tags": [
+					"Comments"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/api/posts": {
+			"get": {
+				"operationId": "GetAllPosts",
+				"responses": {
+					"200": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BasePageResultPostDto"
+								}
+							}
+						},
+						"description": "Ok"
+					}
+				},
+				"tags": [
+					"Posts"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "limit",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "my",
+						"required": false,
+						"schema": {
+							"type": "boolean"
+						}
+					}
+				]
+			},
+			"post": {
+				"operationId": "CreatePost",
+				"responses": {
+					"200": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/PostDto"
+								}
+							}
+						},
+						"description": "Ok"
+					}
+				},
+				"tags": [
+					"Posts"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/IPost"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/posts/{id}": {
+			"get": {
+				"operationId": "GetPostById",
+				"responses": {
+					"200": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/PostDto"
+								}
+							}
+						},
+						"description": "Ok"
+					}
+				},
+				"tags": [
+					"Posts"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "UpdatePost",
+				"responses": {
+					"200": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/PostDto"
+								}
+							}
+						},
+						"description": "Ok"
+					}
+				},
+				"tags": [
+					"Posts"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/IPost"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "DeletePost",
+				"responses": {
+					"200": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "number",
+									"format": "double"
+								}
+							}
+						},
+						"description": "Ok"
+					}
+				},
+				"tags": [
+					"Posts"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
 		"/api/auth/registration": {
 			"post": {
 				"operationId": "Registration",
@@ -153,7 +696,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/User"
+									"$ref": "#/components/schemas/UserDto"
 								}
 							}
 						},
@@ -215,7 +758,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/BasePageResultUser"
+									"$ref": "#/components/schemas/BasePageResultUserDto"
 								}
 							}
 						},
@@ -256,7 +799,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/User"
+									"$ref": "#/components/schemas/UserDto"
 								}
 							}
 						},
@@ -266,13 +809,7 @@
 				"tags": [
 					"Users"
 				],
-				"security": [
-					{
-						"jwt": [
-							"Admin"
-						]
-					}
-				],
+				"security": [],
 				"parameters": [
 					{
 						"in": "path",
@@ -304,7 +841,7 @@
 											"type": "object"
 										},
 										{
-											"$ref": "#/components/schemas/User"
+											"$ref": "#/components/schemas/UserDto"
 										}
 									]
 								}
@@ -355,13 +892,7 @@
 				"tags": [
 					"Users"
 				],
-				"security": [
-					{
-						"jwt": [
-							"Admin"
-						]
-					}
-				],
+				"security": [],
 				"parameters": [
 					{
 						"in": "path",

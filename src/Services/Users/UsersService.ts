@@ -3,6 +3,7 @@ import sha256 from "sha256";
 import uuid from "uuid";
 import { ErrorType } from "../../common/errorType";
 import { ApiError } from "../../common/handlers/errorHandler";
+import { Posts } from "../Posts/PostsModel";
 import { Registration, UpdateUser, Users } from "./UsersModel";
 
 export class UsersService {
@@ -36,11 +37,17 @@ export class UsersService {
   getUsersById = (id: number | string) => {
     return Users.findByPk(id, {
       attributes: ["id", "username", "firstName", "lastName", "email", "role"],
+      include: [
+        {
+          model: Posts,
+          required: false,
+        },
+      ],
     }).then((result) => {
       if (result === null) {
         return Promise
           .reject(
-            new ApiError("User not found", 400, ErrorType.UserNotFoundException),
+            new ApiError("UserDto not found", 400, ErrorType.UserNotFoundException),
           );
       }
 
@@ -58,7 +65,7 @@ export class UsersService {
       id: uuid(),
       salt,
       passwordHash: sha256(password + salt),
-      role: "User",
+      role: "UserDto",
     })
       .catch((e) =>
         Promise.reject(new ApiError("ServerError", 500, ErrorType.DataBaseErrorException, e.message)));

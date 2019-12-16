@@ -5,4 +5,5 @@ export enum ErrorType {
   UnauthorizedException = "UnauthorizedException",
   ValidateException = "ValidateException",
   AccessRestrictedException = "AccessRestrictedException",
+  ServerErrorException = "ServerErrorException",
 }

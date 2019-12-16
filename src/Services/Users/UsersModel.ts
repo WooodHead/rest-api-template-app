@@ -1,12 +1,12 @@
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../../db/db";
+import { BaseDto } from "../../dto/BaseDto.g";
 
-export interface User {
-  id: string;
+export interface UserDto extends BaseDto {
   username: string;
   firstName: string;
   lastName: string;
-  // email: string;
+  email: string;
 }
 
 export interface Registration {
@@ -87,7 +87,12 @@ Users.init({
 }, {
   sequelize,
   modelName: "Users",
+  indexes: [
+    {
+      unique: true,
+      fields: ["username"],
+    },
+  ],
 });
-
 Users.sync({force: false}).then(() => {
 });
