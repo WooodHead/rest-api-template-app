@@ -38,7 +38,7 @@ export class PostsService {
       if (result === null) {
         return Promise
           .reject(
-            new ApiError("UserDto not found", 400, ErrorType.UserNotFoundException),
+            new ApiError("User not found", 400, ErrorType.UserNotFoundException),
           );
       }
 
@@ -58,7 +58,7 @@ export class PostsService {
       if (result === null) {
         return Promise
           .reject(
-            new ApiError("UserDto not found", 400, ErrorType.UserNotFoundException),
+            new ApiError("User not found", 400, ErrorType.UserNotFoundException),
           );
       }
 
