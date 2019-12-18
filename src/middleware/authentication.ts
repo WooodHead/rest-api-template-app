@@ -1,8 +1,9 @@
-import jwt from "jsonwebtoken";
+import jwt, { VerifyErrors } from "jsonwebtoken";
 import { Request } from "koa";
 import { jwtSecretKey } from "../common/constants";
 import { ErrorType } from "../common/errorType";
 import { ApiError } from "../common/handlers/errorHandler";
+import { TokenPayload } from "../Services/Users/AuthController";
 
 export function koaAuthentication(request: Request, securityName: string, scopes?: string[]): Promise<any> {
   const token = request.ctx.cookies.get("token");
@@ -13,7 +14,7 @@ export function koaAuthentication(request: Request, securityName: string, scopes
         reject(
           new ApiError("Unauthorized", 401, ErrorType.UnauthorizedException, "No token provided"));
       } else {
-        jwt.verify(token, jwtSecretKey, (err: any, decoded: any) => {
+        jwt.verify(token, jwtSecretKey, (err: VerifyErrors, decoded: TokenPayload) => {
           if (err) {
             reject(err);
           } else {

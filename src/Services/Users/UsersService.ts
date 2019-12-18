@@ -56,7 +56,7 @@ export class UsersService {
       Promise.reject(new ApiError("ServerError", 500, ErrorType.DataBaseErrorException, e.message)));
   };
 
-  createUser = (body: Registration): any => {
+  createUser = (body: Registration) => {
     const {password} = body;
     const salt = uuid();
 

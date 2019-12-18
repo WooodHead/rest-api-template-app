@@ -7,6 +7,11 @@ import { ApiError } from "../../common/handlers/errorHandler";
 import { Login, Registration, UserDto } from "./UsersModel";
 import { UsersService } from "./UsersService";
 
+export interface TokenPayload {
+  id: string ;
+  role: string;
+}
+
 const {
   createUser,
   getUsersById,
