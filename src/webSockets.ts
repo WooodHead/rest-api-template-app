@@ -22,12 +22,13 @@ export const webSocket = () => {
         const userId = decoded.id;
         clients.set(userId, clients.get(userId) ? [...(clients.get(userId) || []), clientSocket] : [clientSocket]);
         clientSocket.on("message", (data: string) => {
+          console.log(clients.get(userId)?.length);
           clients.get(JSON.parse(data).recipientId)?.map((client) => client.send(data));
         });
 
         clientSocket.on("close", () => {
           if (clients.has(userId)) {
-            const activeClients = clients.get(userId)?.filter((item) => item.readyState === 1) || [];
+            const activeClients = clients.get(userId)?.filter((item) => item !== clientSocket) || [];
             if (activeClients.length > 0) {
               clients.set(userId, activeClients);
             } else {
