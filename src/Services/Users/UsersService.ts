@@ -65,7 +65,7 @@ export class UsersService {
       id: uuid(),
       salt,
       passwordHash: sha256(password + salt),
-      role: "UserDto",
+      role: "User",
     })
       .catch((e) =>
         Promise.reject(new ApiError("ServerError", 500, ErrorType.DataBaseErrorException, e.message)));
