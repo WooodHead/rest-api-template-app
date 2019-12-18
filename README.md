@@ -7,6 +7,7 @@
   - Sequelize (ORM)
   - JWT
   - Postgre SQL
+  - WebSocket
   
 
 ### Installation
