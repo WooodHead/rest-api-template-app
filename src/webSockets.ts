@@ -20,7 +20,6 @@ export const webSocket = () => {
           return;
         }
         const userId = decoded.id;
-        console.log("Connected user id = ", userId);
         clients.set(userId, clients.get(userId) ? [...(clients.get(userId) || []), clientSocket] : [clientSocket]);
         clientSocket.on("message", (data: string) => {
           clients.get(JSON.parse(data).recipientId)?.map((client) => client.send(data));

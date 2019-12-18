@@ -29,7 +29,7 @@ export class AuthController extends Controller {
     }
 
     return createUser(body).then((result) => {
-      return getUsersById(result.dataValues.id);
+      return getUsersById(result.getDataValue("id"));
     });
   }
 
