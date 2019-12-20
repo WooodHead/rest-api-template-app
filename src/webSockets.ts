@@ -3,10 +3,11 @@ import { createServer } from "http";
 import jwt, { VerifyErrors } from "jsonwebtoken";
 import io, { Socket } from "socket.io";
 import { jwtSecretKey } from "./common/constants";
+import { ErrorType } from "./common/errorType";
 import { TokenPayload } from "./Services/Users/AuthController";
 
 export const ioSocket = (app: any) => {
-  const clients = new Map<string, {userId: string, clientSocket: Socket}>();
+  const clients = new Map<string, { userId: string, clientSocket: Socket }>();
 
   const server = createServer(app.callback());
   const socket = io(server);
@@ -18,7 +19,7 @@ export const ioSocket = (app: any) => {
     if (token) {
       jwt.verify(token, jwtSecretKey, (err: VerifyErrors, decoded: TokenPayload) => {
         if (err) {
-          clientSocket.disconnect();
+          clientSocket.disconnect(true);
 
           return;
         }
@@ -40,7 +41,8 @@ export const ioSocket = (app: any) => {
         });
       });
     } else {
-      clientSocket.disconnect();
+      clientSocket.error(ErrorType.UnauthorizedException);
+      clientSocket.disconnect(true);
     }
   });
   server.listen("3131");
