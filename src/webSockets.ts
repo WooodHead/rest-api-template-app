@@ -1,44 +1,47 @@
 import { parse } from "cookie";
+import { createServer } from "http";
 import jwt, { VerifyErrors } from "jsonwebtoken";
-import WebSocket, { Server } from "ws";
+import io, { Socket } from "socket.io";
 import { jwtSecretKey } from "./common/constants";
 import { TokenPayload } from "./Services/Users/AuthController";
 
-const wss = new Server({port: 3030, clientTracking: true});
+export const ioSocket = (app: any) => {
+  const clients = new Map<string, {userId: string, clientSocket: Socket}>();
 
-export const webSocket = () => {
-  const clients = new Map<string, WebSocket[]>();
-  wss.on("connection", (clientSocket, request) => {
-    const {headers} = request;
+  const server = createServer(app.callback());
+  const socket = io(server);
+
+  socket.on("connection", (clientSocket) => {
+    const {headers} = clientSocket.request;
     const cookie = parse(headers.cookie || "");
     const token = cookie?.token;
     if (token) {
       jwt.verify(token, jwtSecretKey, (err: VerifyErrors, decoded: TokenPayload) => {
         if (err) {
-          clientSocket.close();
+          clientSocket.disconnect();
 
           return;
         }
         const userId = decoded.id;
-        clients.set(userId, clients.get(userId) ? [...(clients.get(userId) || []), clientSocket] : [clientSocket]);
+        clients.set(clientSocket.id, {userId, clientSocket});
+        clientSocket.emit("SET_NAME", decoded.role);
         clientSocket.on("message", (data: string) => {
-          console.log(clients.get(userId)?.length);
-          clients.get(JSON.parse(data).recipientId)?.map((client) => client.send(data));
+          clients.forEach((item) => {
+            if (item.userId === JSON.parse(data).recipientId) {
+              item.clientSocket.emit("message", data);
+            }
+          });
         });
 
-        clientSocket.on("close", () => {
-          if (clients.has(userId)) {
-            const activeClients = clients.get(userId)?.filter((item) => item !== clientSocket) || [];
-            if (activeClients.length > 0) {
-              clients.set(userId, activeClients);
-            } else {
-              clients.delete(userId);
-            }
+        clientSocket.on("disconnect", () => {
+          if (clients.has(clientSocket.id)) {
+            clients.delete(clientSocket.id);
           }
         });
       });
     } else {
-      clientSocket.close();
+      clientSocket.disconnect();
     }
   });
+  server.listen("3131");
 };

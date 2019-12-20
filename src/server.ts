@@ -9,11 +9,11 @@ import swaggerDoc from "../swagger.json";
 import { errorHandler } from "./common/handlers/errorHandler";
 import { notFoundHandler } from "./common/handlers/notFoundHandler";
 import { RegisterRoutes } from "./routes";
-import { webSocket } from "./webSockets";
+import { ioSocket } from "./webSockets";
 
 const PORT = 5000;
 const app = new Koa();
-webSocket();
+ioSocket(app);
 
 // middleware
 app.use(RateLimit.middleware({
