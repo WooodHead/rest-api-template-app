@@ -25,13 +25,13 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "BasePageResultCommentDto": {
+    "BasePageResultCommentDtoArray": {
         "dataType": "refObject",
         "properties": {
             "count": { "dataType": "double", "required": true },
             "page": { "dataType": "double" },
             "limit": { "dataType": "double" },
-            "items": { "dataType": "array", "array": { "ref": "CommentDto" }, "required": true },
+            "data": { "dataType": "array", "array": { "ref": "CommentDto" }, "required": true },
         },
         "additionalProperties": false,
     },
@@ -55,13 +55,13 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "BasePageResultPostDto": {
+    "BasePageResultPostDtoArray": {
         "dataType": "refObject",
         "properties": {
             "count": { "dataType": "double", "required": true },
             "page": { "dataType": "double" },
             "limit": { "dataType": "double" },
-            "items": { "dataType": "array", "array": { "ref": "PostDto" }, "required": true },
+            "data": { "dataType": "array", "array": { "ref": "PostDto" }, "required": true },
         },
         "additionalProperties": false,
     },
@@ -109,13 +109,13 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "BasePageResultUserDto": {
+    "BasePageResultUserDtoArray": {
         "dataType": "refObject",
         "properties": {
             "count": { "dataType": "double", "required": true },
             "page": { "dataType": "double" },
             "limit": { "dataType": "double" },
-            "items": { "dataType": "array", "array": { "ref": "UserDto" }, "required": true },
+            "data": { "dataType": "array", "array": { "ref": "UserDto" }, "required": true },
         },
         "additionalProperties": false,
     },

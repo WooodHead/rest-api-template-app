@@ -34,7 +34,7 @@ export class AuthController extends Controller {
   }
 
   @Post("/login")
-  login(@Body() body: Login): Promise<string> {
+  login(@Body() body: Login): Promise<UserDto> {
 
     const {username, password} = body;
 
@@ -48,13 +48,20 @@ export class AuthController extends Controller {
               id,
               role,
             }, jwtSecretKey, {algorithm: "HS256", expiresIn: "24h"});
-            this.setHeader("set-cookie", `token=${token};path=/;HttpOnly`);
+            this.setHeader("set-cookie", `token=${token};path=/;`);
           } else {
             return Promise.reject(new ApiError("ValidateException", 400, ErrorType.UnauthorizedException, "Incorrect username or password"));
           }
         }
 
-        return token;
+        return {
+          id: result.id,
+          username: result.username,
+          firstName: result.firstName,
+          lastName: result.lastName,
+          email: result.email,
+          role: result.role,
+        };
       });
   }
 

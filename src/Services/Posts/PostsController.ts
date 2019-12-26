@@ -25,7 +25,7 @@ export class PostsController extends Controller {
     @Query("page") page?: number,
     @Query("limit") limit?: number,
     @Query("my") my?: boolean,
-  ): Promise<BasePageResult<PostDto>> {
+  ): Promise<BasePageResult<PostDto[]>> {
     try {
       const UserId = assertNotNull<string>(req.ctx.request.user?.id, "userId is undefined");
 
@@ -33,7 +33,7 @@ export class PostsController extends Controller {
         page,
         limit,
         count: result.length,
-        items: result,
+        data: result,
       }));
     } catch (e) {
       return Promise.reject(new ApiError("ServerError", 500, ErrorType.DataBaseErrorException, e.message));

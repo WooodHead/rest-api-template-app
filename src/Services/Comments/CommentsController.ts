@@ -28,7 +28,7 @@ export class CommentsController extends Controller {
     @Query("limit") limit?: number,
     @Query("my") my?: boolean,
     @Query("postId") PostId?: string,
-    ): Promise<BasePageResult<CommentDto>> {
+    ): Promise<BasePageResult<CommentDto[]>> {
     try {
       const UserId = assertNotNull<string>(req.ctx.request.user?.id, "userId is undefined");
 
@@ -36,7 +36,7 @@ export class CommentsController extends Controller {
         page,
         limit,
         count: result.length,
-        items: result,
+        data: result,
       }));
     } catch (e) {
       return Promise.reject(new ApiError("ServerError", 500, ErrorType.DataBaseErrorException, e.message));

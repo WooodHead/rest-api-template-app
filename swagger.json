@@ -22,7 +22,7 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"BasePageResultCommentDto": {
+			"BasePageResultCommentDtoArray": {
 				"properties": {
 					"count": {
 						"type": "number",
@@ -38,7 +38,7 @@
 						"format": "double",
 						"nullable": true
 					},
-					"items": {
+					"data": {
 						"items": {
 							"$ref": "#/components/schemas/CommentDto"
 						},
@@ -47,7 +47,7 @@
 				},
 				"required": [
 					"count",
-					"items"
+					"data"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -88,7 +88,7 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"BasePageResultPostDto": {
+			"BasePageResultPostDtoArray": {
 				"properties": {
 					"count": {
 						"type": "number",
@@ -104,7 +104,7 @@
 						"format": "double",
 						"nullable": true
 					},
-					"items": {
+					"data": {
 						"items": {
 							"$ref": "#/components/schemas/PostDto"
 						},
@@ -113,7 +113,7 @@
 				},
 				"required": [
 					"count",
-					"items"
+					"data"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -210,7 +210,7 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"BasePageResultUserDto": {
+			"BasePageResultUserDtoArray": {
 				"properties": {
 					"count": {
 						"type": "number",
@@ -226,7 +226,7 @@
 						"format": "double",
 						"nullable": true
 					},
-					"items": {
+					"data": {
 						"items": {
 							"$ref": "#/components/schemas/UserDto"
 						},
@@ -235,7 +235,7 @@
 				},
 				"required": [
 					"count",
-					"items"
+					"data"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -289,7 +289,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/BasePageResultCommentDto"
+									"$ref": "#/components/schemas/BasePageResultCommentDtoArray"
 								}
 							}
 						},
@@ -503,7 +503,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/BasePageResultPostDto"
+									"$ref": "#/components/schemas/BasePageResultPostDtoArray"
 								}
 							}
 						},
@@ -727,7 +727,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "string"
+									"$ref": "#/components/schemas/UserDto"
 								}
 							}
 						},
@@ -758,7 +758,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/BasePageResultUserDto"
+									"$ref": "#/components/schemas/BasePageResultUserDtoArray"
 								}
 							}
 						},

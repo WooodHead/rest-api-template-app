@@ -17,13 +17,14 @@ const {
 export class UsersController extends Controller {
 
   @Get()
-  getAllUsers(@Query("page") page?: number, @Query("limit") limit?: number): Promise<BasePageResult<UserDto>> {
+  // @Security("jwt")
+  getAllUsers(@Query("page") page?: number, @Query("limit") limit?: number): Promise<BasePageResult<UserDto[]>> {
     try {
       return getAllUsers(page, limit).then((result) => ({
         page,
         limit,
         count: result.length,
-        items: result,
+        data: result,
       }));
     } catch (e) {
       return Promise.reject(new ApiError("", 500, ErrorType.DataBaseErrorException));
