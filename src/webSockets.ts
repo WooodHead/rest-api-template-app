@@ -1,12 +1,13 @@
 import { parse } from "cookie";
 import { createServer } from "http";
 import jwt, { VerifyErrors } from "jsonwebtoken";
+import Koa from "koa";
 import io, { Socket } from "socket.io";
 import { jwtSecretKey } from "./common/constants";
 import { ErrorType } from "./common/errorType";
 import { TokenPayload } from "./Services/Users/AuthController";
 
-export const ioSocket = (app: any) => {
+export const ioSocket = (app: Koa<Koa.DefaultState, Koa.DefaultContext>) => {
   const clients = new Map<string, { userId: string, clientSocket: Socket }>();
 
   const server = createServer(app.callback());
