@@ -25,6 +25,6 @@ app
   .use(router.allowedMethods())
   .use(notFoundHandler);
 
-app.listen(PORT, "localhost", () => {
+export const server = app.listen(PORT, "localhost", () => {
   console.info(`REST API Server running on : http://localhost:${PORT}`);
 });

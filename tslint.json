@@ -21,6 +21,7 @@
         "ignore-module": "(\\.html|\\.css|\\.scss|bootstrap|moment/locale/ka|i18next)$"
       }
     ],
+    "no-implicit-dependencies": [true, "dev"],
     "no-internal-module": true,
     // "no-magic-numbers": true,
     "no-non-null-assertion": false,

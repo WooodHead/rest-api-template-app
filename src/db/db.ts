@@ -6,6 +6,7 @@ export const sequelize = new Sequelize("postgres", "postgres", "epifan123", {
   },
   dialect: "postgres",
   host: "localhost",
+  logging: false,
   port: 5432,
 });
 

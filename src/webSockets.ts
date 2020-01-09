@@ -46,5 +46,5 @@ export const ioSocket = (app: Koa<Koa.DefaultState, Koa.DefaultContext>) => {
       clientSocket.disconnect(true);
     }
   });
-  server.listen("3131");
+  server.listen("3132");
 };
