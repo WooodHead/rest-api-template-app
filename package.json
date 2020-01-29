@@ -77,9 +77,9 @@
     }
   },
   "lint-staged": {
-    "*.{ts,tsx}": [
+    "*.{ts}": [
       "tslint --fix \"src/**/*{.ts,.tsx}\"",
-      "prettier --parser typescript --write src/**/*.{json,ts,tsx}",
+      "prettier --parser typescript --write src/**/*.{json,ts}",
       "git add"
     ]
   }
