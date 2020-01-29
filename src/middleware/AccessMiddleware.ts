@@ -1,3 +1,1 @@
-export const AccessMiddleware = () => {
-
-};
+export const AccessMiddleware = () => {};

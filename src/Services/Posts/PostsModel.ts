@@ -27,36 +27,38 @@ export class Posts extends Model {
   private readonly updatedAt: Date | string;
 }
 
-Posts.init({
-  id: {
-    type: DataTypes.UUID,
-    primaryKey: true,
-    allowNull: false,
-  },
-  name: {
-    type: DataTypes.STRING(15),
-    allowNull: true,
-    validate: {
-      len: [5, 10],
+Posts.init(
+  {
+    id: {
+      type: DataTypes.UUID,
+      primaryKey: true,
+      allowNull: false,
+    },
+    name: {
+      type: DataTypes.STRING(15),
+      allowNull: true,
+      validate: {
+        len: [5, 10],
+      },
+    },
+    subject: {
+      type: DataTypes.STRING(40),
+      allowNull: true,
+    },
+    UserId: {
+      type: DataTypes.UUID,
+      primaryKey: true,
+      allowNull: false,
+    },
+    body: {
+      type: DataTypes.STRING(200),
+      allowNull: true,
     },
   },
-  subject: {
-    type: DataTypes.STRING(40),
-    allowNull: true,
+  {
+    sequelize,
+    modelName: "Posts",
   },
-  UserId: {
-    type: DataTypes.UUID,
-    primaryKey: true,
-    allowNull: false,
-  },
-  body: {
-    type: DataTypes.STRING(200),
-    allowNull: true,
-  },
-}, {
-  sequelize,
-  modelName: "Posts",
-});
+);
 Users.hasMany(Posts);
-Posts.sync({force: false}).then(() => {
-});
+Posts.sync({ force: false }).then(() => {});

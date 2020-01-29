@@ -9,11 +9,12 @@ describe("Users", () => {
     done();
   });
   /*
-    * Тест для /GET
-    */
+   * Тест для /GET
+   */
   describe("/GET users", () => {
     it("it should GET all the users", (done) => {
-      chai.request(server)
+      chai
+        .request(server)
         .get("/api/users")
         .end((err, res) => {
           res.should.have.status(200);
@@ -23,5 +24,4 @@ describe("Users", () => {
         });
     });
   });
-
 });

@@ -8,8 +8,7 @@ export interface Comment {
   comment: string;
 }
 
-export interface CommentDto extends BaseDto, Comment {
-}
+export interface CommentDto extends BaseDto, Comment {}
 
 export class Comments extends Model {
   id: string;
@@ -22,22 +21,24 @@ export class Comments extends Model {
   private readonly updatedAt: Date | string;
 }
 
-Comments.init({
-  id: {
-    type: DataTypes.UUID,
-    primaryKey: true,
-    allowNull: false,
+Comments.init(
+  {
+    id: {
+      type: DataTypes.UUID,
+      primaryKey: true,
+      allowNull: false,
+    },
+    comment: {
+      type: DataTypes.STRING(200),
+      allowNull: true,
+    },
   },
-  comment: {
-    type: DataTypes.STRING(200),
-    allowNull: true,
+  {
+    sequelize,
+    modelName: "Comments",
   },
-}, {
-  sequelize,
-  modelName: "Comments",
-});
+);
 
 Users.hasMany(Comments);
 Posts.hasMany(Comments);
-Comments.sync({force: false}).then(() => {
-});
+Comments.sync({ force: false }).then(() => {});

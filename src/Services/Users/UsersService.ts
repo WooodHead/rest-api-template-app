@@ -8,30 +8,39 @@ import { Registration, UpdateUser, Users } from "./UsersModel";
 
 export class UsersService {
   getAllUsers = (page?: number, limit?: number) => {
-    return Users.findAll(
-      {
-        limit,
-        attributes: ["id", "username", "firstName", "lastName", "email"],
-        offset: limit ? page && (page > 0 ? page - 1 : page) * limit : undefined,
-        order: [
-          ["createdAt", "DESC"],
-        ],
-      },
-    );
+    return Users.findAll({
+      limit,
+      attributes: ["id", "username", "firstName", "lastName", "email"],
+      offset: limit ? page && (page > 0 ? page - 1 : page) * limit : undefined,
+      order: [["createdAt", "DESC"]],
+    });
   };
 
   getUsersByAttr = (where: WhereOptions) => {
-    return Users.findOne({where}).then((result) => {
-      if (result === null) {
-        return Promise
-          .reject(
-            new ApiError("User not found", 400, ErrorType.UserNotFoundException),
+    return Users.findOne({ where }).then(
+      (result) => {
+        if (result === null) {
+          return Promise.reject(
+            new ApiError(
+              "User not found",
+              400,
+              ErrorType.UserNotFoundException,
+            ),
           );
-      }
+        }
 
-      return Promise.resolve(result);
-    }, (e) =>
-      Promise.reject(new ApiError("ServerError", 500, ErrorType.DataBaseErrorException, e.message)));
+        return Promise.resolve(result);
+      },
+      (e) =>
+        Promise.reject(
+          new ApiError(
+            "ServerError",
+            500,
+            ErrorType.DataBaseErrorException,
+            e.message,
+          ),
+        ),
+    );
   };
 
   getUsersById = (id: number | string) => {
@@ -43,21 +52,34 @@ export class UsersService {
           required: false,
         },
       ],
-    }).then((result) => {
-      if (result === null) {
-        return Promise
-          .reject(
-            new ApiError("User not found", 400, ErrorType.UserNotFoundException),
+    }).then(
+      (result) => {
+        if (result === null) {
+          return Promise.reject(
+            new ApiError(
+              "User not found",
+              400,
+              ErrorType.UserNotFoundException,
+            ),
           );
-      }
+        }
 
-      return Promise.resolve(result);
-    }, (e) =>
-      Promise.reject(new ApiError("ServerError", 500, ErrorType.DataBaseErrorException, e.message)));
+        return Promise.resolve(result);
+      },
+      (e) =>
+        Promise.reject(
+          new ApiError(
+            "ServerError",
+            500,
+            ErrorType.DataBaseErrorException,
+            e.message,
+          ),
+        ),
+    );
   };
 
   createUser = (body: Registration) => {
-    const {password} = body;
+    const { password } = body;
     const salt = uuid();
 
     return Users.create({
@@ -66,20 +88,43 @@ export class UsersService {
       salt,
       passwordHash: sha256(password + salt),
       role: "User",
-    })
-      .catch((e) =>
-        Promise.reject(new ApiError("ServerError", 500, ErrorType.DataBaseErrorException, e.message)));
+    }).catch((e) =>
+      Promise.reject(
+        new ApiError(
+          "ServerError",
+          500,
+          ErrorType.DataBaseErrorException,
+          e.message,
+        ),
+      ),
+    );
   };
 
   updateUser = (id: number | string, body: UpdateUser) => {
-    return Users.update(body, {where: {id}})
-      .then(() => this.getUsersById(id), (e) =>
-        Promise.reject(new ApiError("ServerError", 500, ErrorType.DataBaseErrorException, e.message)));
+    return Users.update(body, { where: { id } }).then(
+      () => this.getUsersById(id),
+      (e) =>
+        Promise.reject(
+          new ApiError(
+            "ServerError",
+            500,
+            ErrorType.DataBaseErrorException,
+            e.message,
+          ),
+        ),
+    );
   };
 
   deleteUser = (id: number | string) => {
-    return Users.destroy({where: {id}})
-      .catch((e) =>
-        Promise.reject(new ApiError("ServerError", 500, ErrorType.DataBaseErrorException, e.message)));
+    return Users.destroy({ where: { id } }).catch((e) =>
+      Promise.reject(
+        new ApiError(
+          "ServerError",
+          500,
+          ErrorType.DataBaseErrorException,
+          e.message,
+        ),
+      ),
+    );
   };
 }

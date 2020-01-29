@@ -13,49 +13,70 @@ export interface IGetCommentsOptions {
 }
 
 export class CommentsService {
-  getComments = ({UserId, page, limit, my, PostId}: IGetCommentsOptions) => {
-    return Comments.findAll(
-      {
-        limit,
-        offset: limit ? page && (page > 0 ? page - 1 : page) * limit : undefined,
-        order: [
-          ["createdAt", "DESC"],
-        ],
-        where: {
-          ...(my && UserId ? {UserId} : {}),
-          ...(PostId ? {PostId} : {}),
-        },
+  getComments = ({ UserId, page, limit, my, PostId }: IGetCommentsOptions) => {
+    return Comments.findAll({
+      limit,
+      offset: limit ? page && (page > 0 ? page - 1 : page) * limit : undefined,
+      order: [["createdAt", "DESC"]],
+      where: {
+        ...(my && UserId ? { UserId } : {}),
+        ...(PostId ? { PostId } : {}),
       },
-    );
+    });
   };
 
   getCommentsByAttr = (where: WhereOptions) => {
-    return Comments.findOne({where}).then((result) => {
-      if (result === null) {
-        return Promise
-          .reject(
-            new ApiError("User not found", 400, ErrorType.UserNotFoundException),
+    return Comments.findOne({ where }).then(
+      (result) => {
+        if (result === null) {
+          return Promise.reject(
+            new ApiError(
+              "User not found",
+              400,
+              ErrorType.UserNotFoundException,
+            ),
           );
-      }
+        }
 
-      return Promise.resolve(result);
-    }, (e) =>
-      Promise.reject(new ApiError("ServerError", 500, ErrorType.DataBaseErrorException, e.message)));
+        return Promise.resolve(result);
+      },
+      (e) =>
+        Promise.reject(
+          new ApiError(
+            "ServerError",
+            500,
+            ErrorType.DataBaseErrorException,
+            e.message,
+          ),
+        ),
+    );
   };
 
   getCommentsById = (id: number | string) => {
-    return Comments.findByPk(id, {
-    }).then((result) => {
-      if (result === null) {
-        return Promise
-          .reject(
-            new ApiError("User not found", 400, ErrorType.UserNotFoundException),
+    return Comments.findByPk(id, {}).then(
+      (result) => {
+        if (result === null) {
+          return Promise.reject(
+            new ApiError(
+              "User not found",
+              400,
+              ErrorType.UserNotFoundException,
+            ),
           );
-      }
+        }
 
-      return Promise.resolve(result);
-    }, (e) =>
-      Promise.reject(new ApiError("ServerError", 500, ErrorType.DataBaseErrorException, e.message)));
+        return Promise.resolve(result);
+      },
+      (e) =>
+        Promise.reject(
+          new ApiError(
+            "ServerError",
+            500,
+            ErrorType.DataBaseErrorException,
+            e.message,
+          ),
+        ),
+    );
   };
   createComment = async (body: Comment, UserId: string, PostId: string) => {
     return Comments.create({
@@ -63,30 +84,61 @@ export class CommentsService {
       PostId,
       UserId,
       id: uuid(),
-    })
-      .catch((e) =>
-        Promise.reject(new ApiError("ServerError", 500, ErrorType.DataBaseErrorException, e.message)));
+    }).catch((e) =>
+      Promise.reject(
+        new ApiError(
+          "ServerError",
+          500,
+          ErrorType.DataBaseErrorException,
+          e.message,
+        ),
+      ),
+    );
   };
 
-  updateComment = async (id: number | string, body: Comment, userId: string) => {
-    const {id: commentId, UserId} = await this.getCommentsById(id);
+  updateComment = async (
+    id: number | string,
+    body: Comment,
+    userId: string,
+  ) => {
+    const { id: commentId, UserId } = await this.getCommentsById(id);
     if (UserId === userId) {
-      return Comments.update(body, {where: {id}})
-        .then(() => this.getCommentsById(commentId), (e) =>
-          Promise.reject(new ApiError("ServerError", 500, ErrorType.DataBaseErrorException, e.message)));
+      return Comments.update(body, { where: { id } }).then(
+        () => this.getCommentsById(commentId),
+        (e) =>
+          Promise.reject(
+            new ApiError(
+              "ServerError",
+              500,
+              ErrorType.DataBaseErrorException,
+              e.message,
+            ),
+          ),
+      );
     }
 
-    return Promise.reject(new ApiError("Access Denied", 403, ErrorType.AccessRestrictedException));
+    return Promise.reject(
+      new ApiError("Access Denied", 403, ErrorType.AccessRestrictedException),
+    );
   };
 
   deleteComment = async (id: number | string, userId: string) => {
-    const {id: commentId, UserId} = await this.getCommentsById(id);
+    const { id: commentId, UserId } = await this.getCommentsById(id);
     if (UserId === userId) {
-      return Comments.destroy({where: {id}})
-        .catch((e) =>
-          Promise.reject(new ApiError("ServerError", 500, ErrorType.DataBaseErrorException, e.message)));
+      return Comments.destroy({ where: { id } }).catch((e) =>
+        Promise.reject(
+          new ApiError(
+            "ServerError",
+            500,
+            ErrorType.DataBaseErrorException,
+            e.message,
+          ),
+        ),
+      );
     }
 
-    return Promise.reject(new ApiError("Access Denied", 403, ErrorType.AccessRestrictedException));
-  }
+    return Promise.reject(
+      new ApiError("Access Denied", 403, ErrorType.AccessRestrictedException),
+    );
+  };
 }

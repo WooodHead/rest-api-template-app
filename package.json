@@ -19,7 +19,8 @@
     "generate": "tsoa routes && tsoa swagger",
     "test": "mocha -r ts-node/register src/**/*.test.ts",
     "lint": "tslint \"src/**/*{.ts}\"",
-    "lint:fix": "tslint --fix \"src/**/*{.ts}\""
+    "lint:fix": "tslint --fix \"src/**/*{.ts}\"",
+    "prettier:fix": "prettier --parser typescript --write src/**/*.{json,ts}"
   },
   "dependencies": {
     "cookie": "^0.4.0",

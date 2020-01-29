@@ -44,55 +44,57 @@ export class Users extends Model {
   private readonly updatedAt: Date | string;
 }
 
-Users.init({
-  id: {
-    type: DataTypes.UUID,
-    primaryKey: true,
-    allowNull: false,
-  },
-  username: {
-    type: DataTypes.STRING(15),
-    allowNull: true,
-    validate: {
-      len: [5, 10],
+Users.init(
+  {
+    id: {
+      type: DataTypes.UUID,
+      primaryKey: true,
+      allowNull: false,
+    },
+    username: {
+      type: DataTypes.STRING(15),
+      allowNull: true,
+      validate: {
+        len: [5, 10],
+      },
+    },
+    firstName: {
+      type: DataTypes.STRING(40),
+      allowNull: true,
+    },
+    lastName: {
+      type: DataTypes.STRING(40),
+      allowNull: true,
+    },
+    role: {
+      type: DataTypes.STRING(40),
+      allowNull: true,
+    },
+    email: {
+      type: DataTypes.STRING(50),
+      allowNull: true,
+      validate: {
+        isEmail: true,
+      },
+    },
+    passwordHash: {
+      type: DataTypes.STRING(100),
+      allowNull: true,
+    },
+    salt: {
+      type: DataTypes.STRING(100),
+      allowNull: true,
     },
   },
-  firstName: {
-    type: DataTypes.STRING(40),
-    allowNull: true,
+  {
+    sequelize,
+    modelName: "Users",
+    indexes: [
+      {
+        unique: true,
+        fields: ["username"],
+      },
+    ],
   },
-  lastName: {
-    type: DataTypes.STRING(40),
-    allowNull: true,
-  },
-  role: {
-    type: DataTypes.STRING(40),
-    allowNull: true,
-  },
-  email: {
-    type: DataTypes.STRING(50),
-    allowNull: true,
-    validate: {
-      isEmail: true,
-    },
-  },
-  passwordHash: {
-    type: DataTypes.STRING(100),
-    allowNull: true,
-  },
-  salt: {
-    type: DataTypes.STRING(100),
-    allowNull: true,
-  },
-}, {
-  sequelize,
-  modelName: "Users",
-  indexes: [
-    {
-      unique: true,
-      fields: ["username"],
-    },
-  ],
-});
-Users.sync({force: false}).then(() => {
-});
+);
+Users.sync({ force: false }).then(() => {});

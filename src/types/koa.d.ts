@@ -3,9 +3,11 @@ import Koa from "koa";
 interface IUser {
   ctx: {
     request: {
-      user: {
-        id: string,
-      } | undefined
+      user:
+        | {
+            id: string;
+          }
+        | undefined;
     };
   };
 }

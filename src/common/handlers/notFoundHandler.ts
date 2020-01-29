@@ -5,6 +5,10 @@ import { ApiError } from "./errorHandler";
 export const notFoundHandler = async (ctx: Context, next: Next) => {
   if (ctx.status === 404) {
     ctx.status = 404;
-    ctx.body = new ApiError("Route not found", 404, ErrorType.RouteNotFoundException);
+    ctx.body = new ApiError(
+      "Route not found",
+      404,
+      ErrorType.RouteNotFoundException,
+    );
   }
 };
