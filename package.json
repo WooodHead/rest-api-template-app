@@ -62,7 +62,7 @@
     "@types/webpack-node-externals": "^1.6.3",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
-    "husky": "^4.2.1",
+    "husky": "1.0.1",
     "lint-staged": "^10.0.2",
     "mocha": "^7.0.0",
     "prettier": "^1.19.1",
