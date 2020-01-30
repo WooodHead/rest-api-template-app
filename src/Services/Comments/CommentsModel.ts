@@ -39,6 +39,4 @@ Comments.init(
   },
 );
 
-Users.hasMany(Comments);
-Posts.hasMany(Comments);
 Comments.sync({ force: false }).then(() => {});

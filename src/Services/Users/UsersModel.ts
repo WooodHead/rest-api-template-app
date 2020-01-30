@@ -1,6 +1,8 @@
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../../db/db";
 import { BaseDto } from "../../dto/BaseDto.g";
+import { Comments } from "../Comments/CommentsModel";
+import { Posts } from "../Posts/PostsModel";
 
 export interface UserDto extends BaseDto {
   username: string;
@@ -97,4 +99,7 @@ Users.init(
     ],
   },
 );
-Users.sync({ force: false }).then(() => {});
+Users.sync({ force: false }).then(() => {
+  Users.hasMany(Comments);
+  Users.hasMany(Posts);
+});
