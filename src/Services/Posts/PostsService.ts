@@ -1,5 +1,5 @@
 import { WhereOptions } from "sequelize";
-import uuid from "uuid";
+import { v1 as uuid } from "uuid";
 import { ErrorType } from "../../common/errorType";
 import { ApiError } from "../../common/handlers/errorHandler";
 import { Comments } from "../Comments/CommentsModel";

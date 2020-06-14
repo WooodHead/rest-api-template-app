@@ -63,6 +63,7 @@
     "@types/sha256": "^0.2.0",
     "@types/socket.io": "^2.1.8",
     "@types/swagger-ui-express": "^4.1.2",
+    "@types/uuid": "^8.0.0",
     "@types/validator": "^13.0.0",
     "@types/webpack": "^4.41.17",
     "@types/webpack-node-externals": "^1.7.1",

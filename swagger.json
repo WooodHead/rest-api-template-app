@@ -20,7 +20,7 @@
 					"comment"
 				],
 				"type": "object",
-				"additionalProperties": true
+				"additionalProperties": false
 			},
 			"BasePageResult_CommentDto-Array_": {
 				"properties": {
@@ -48,7 +48,7 @@
 					"data"
 				],
 				"type": "object",
-				"additionalProperties": true
+				"additionalProperties": false
 			},
 			"Comment": {
 				"properties": {
@@ -60,7 +60,7 @@
 					"comment"
 				],
 				"type": "object",
-				"additionalProperties": true
+				"additionalProperties": false
 			},
 			"PostDto": {
 				"properties": {
@@ -84,7 +84,7 @@
 					"body"
 				],
 				"type": "object",
-				"additionalProperties": true
+				"additionalProperties": false
 			},
 			"BasePageResult_PostDto-Array_": {
 				"properties": {
@@ -112,7 +112,7 @@
 					"data"
 				],
 				"type": "object",
-				"additionalProperties": true
+				"additionalProperties": false
 			},
 			"IPost": {
 				"properties": {
@@ -132,7 +132,7 @@
 					"body"
 				],
 				"type": "object",
-				"additionalProperties": true
+				"additionalProperties": false
 			},
 			"UserDto": {
 				"properties": {
@@ -160,7 +160,7 @@
 					"email"
 				],
 				"type": "object",
-				"additionalProperties": true
+				"additionalProperties": false
 			},
 			"Registration": {
 				"properties": {
@@ -188,7 +188,7 @@
 					"password"
 				],
 				"type": "object",
-				"additionalProperties": true
+				"additionalProperties": false
 			},
 			"Login": {
 				"properties": {
@@ -204,7 +204,7 @@
 					"password"
 				],
 				"type": "object",
-				"additionalProperties": true
+				"additionalProperties": false
 			},
 			"BasePageResult_UserDto-Array_": {
 				"properties": {
@@ -232,7 +232,7 @@
 					"data"
 				],
 				"type": "object",
-				"additionalProperties": true
+				"additionalProperties": false
 			},
 			"UpdateUser": {
 				"properties": {
@@ -250,7 +250,7 @@
 					}
 				},
 				"type": "object",
-				"additionalProperties": true
+				"additionalProperties": false
 			}
 		},
 		"securitySchemes": {

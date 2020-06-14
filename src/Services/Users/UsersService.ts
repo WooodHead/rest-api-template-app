@@ -1,6 +1,6 @@
 import { WhereOptions } from "sequelize";
 import sha256 from "sha256";
-import uuid from "uuid";
+import { v1 as uuid } from "uuid";
 import { ErrorType } from "../../common/errorType";
 import { ApiError } from "../../common/handlers/errorHandler";
 import { Posts } from "../Posts/PostsModel";

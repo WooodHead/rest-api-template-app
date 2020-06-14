@@ -30,7 +30,7 @@ const models: TsoaRoute.Models = {
       id: { dataType: "string", required: true },
       comment: { dataType: "string", required: true },
     },
-    additionalProperties: true,
+    additionalProperties: false,
   },
   // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
   "BasePageResult_CommentDto-Array_": {
@@ -41,7 +41,7 @@ const models: TsoaRoute.Models = {
       limit: { dataType: "double" },
       data: { dataType: "array", array: { ref: "CommentDto" }, required: true },
     },
-    additionalProperties: true,
+    additionalProperties: false,
   },
   // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
   Comment: {
@@ -49,7 +49,7 @@ const models: TsoaRoute.Models = {
     properties: {
       comment: { dataType: "string", required: true },
     },
-    additionalProperties: true,
+    additionalProperties: false,
   },
   // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
   PostDto: {
@@ -60,7 +60,7 @@ const models: TsoaRoute.Models = {
       subject: { dataType: "string", required: true },
       body: { dataType: "string", required: true },
     },
-    additionalProperties: true,
+    additionalProperties: false,
   },
   // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
   "BasePageResult_PostDto-Array_": {
@@ -71,7 +71,7 @@ const models: TsoaRoute.Models = {
       limit: { dataType: "double" },
       data: { dataType: "array", array: { ref: "PostDto" }, required: true },
     },
-    additionalProperties: true,
+    additionalProperties: false,
   },
   // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
   IPost: {
@@ -81,7 +81,7 @@ const models: TsoaRoute.Models = {
       subject: { dataType: "string", required: true },
       body: { dataType: "string", required: true },
     },
-    additionalProperties: true,
+    additionalProperties: false,
   },
   // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
   UserDto: {
@@ -93,7 +93,7 @@ const models: TsoaRoute.Models = {
       lastName: { dataType: "string", required: true },
       email: { dataType: "string", required: true },
     },
-    additionalProperties: true,
+    additionalProperties: false,
   },
   // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
   Registration: {
@@ -105,7 +105,7 @@ const models: TsoaRoute.Models = {
       email: { dataType: "string", required: true },
       password: { dataType: "string", required: true },
     },
-    additionalProperties: true,
+    additionalProperties: false,
   },
   // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
   Login: {
@@ -114,7 +114,7 @@ const models: TsoaRoute.Models = {
       username: { dataType: "string", required: true },
       password: { dataType: "string", required: true },
     },
-    additionalProperties: true,
+    additionalProperties: false,
   },
   // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
   "BasePageResult_UserDto-Array_": {
@@ -125,7 +125,7 @@ const models: TsoaRoute.Models = {
       limit: { dataType: "double" },
       data: { dataType: "array", array: { ref: "UserDto" }, required: true },
     },
-    additionalProperties: true,
+    additionalProperties: false,
   },
   // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
   UpdateUser: {
@@ -136,7 +136,7 @@ const models: TsoaRoute.Models = {
       email: { dataType: "string" },
       role: { dataType: "string" },
     },
-    additionalProperties: true,
+    additionalProperties: false,
   },
   // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 };
@@ -694,7 +694,7 @@ export function RegisterRoutes(router: KoaRouter) {
             name,
             errorFields,
             undefined,
-            { noImplicitAdditionalProperties: "ignore" },
+            { noImplicitAdditionalProperties: "silently-remove-extras" },
           );
         case "path":
           return validationService.ValidateParam(
@@ -703,7 +703,7 @@ export function RegisterRoutes(router: KoaRouter) {
             name,
             errorFields,
             undefined,
-            { noImplicitAdditionalProperties: "ignore" },
+            { noImplicitAdditionalProperties: "silently-remove-extras" },
           );
         case "header":
           return validationService.ValidateParam(
@@ -712,7 +712,7 @@ export function RegisterRoutes(router: KoaRouter) {
             name,
             errorFields,
             undefined,
-            { noImplicitAdditionalProperties: "ignore" },
+            { noImplicitAdditionalProperties: "silently-remove-extras" },
           );
         case "body":
           return validationService.ValidateParam(
@@ -721,7 +721,7 @@ export function RegisterRoutes(router: KoaRouter) {
             name,
             errorFields,
             undefined,
-            { noImplicitAdditionalProperties: "ignore" },
+            { noImplicitAdditionalProperties: "silently-remove-extras" },
           );
         case "body-prop":
           return validationService.ValidateParam(
@@ -730,7 +730,7 @@ export function RegisterRoutes(router: KoaRouter) {
             name,
             errorFields,
             "body.",
-            { noImplicitAdditionalProperties: "ignore" },
+            { noImplicitAdditionalProperties: "silently-remove-extras" },
           );
         case "res":
           return responder(context, next);

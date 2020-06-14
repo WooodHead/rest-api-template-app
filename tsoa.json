@@ -1,5 +1,6 @@
 {
   "entryFile": "./src/controllers.ts",
+  "noImplicitAdditionalProperties": "silently-remove-extras",
   "spec": {
     "schemes": [
       "http"

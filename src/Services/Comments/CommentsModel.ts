@@ -1,8 +1,6 @@
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../../db/db";
 import { BaseDto } from "../../dto/BaseDto.g";
-import { Posts } from "../Posts/PostsModel";
-import { Users } from "../Users/UsersModel";
 
 export interface Comment {
   comment: string;
@@ -30,6 +28,14 @@ Comments.init(
     },
     comment: {
       type: DataTypes.STRING(200),
+      allowNull: true,
+    },
+    UserId: {
+      type: DataTypes.UUID,
+      allowNull: true,
+    },
+    PostId: {
+      type: DataTypes.UUID,
       allowNull: true,
     },
   },
