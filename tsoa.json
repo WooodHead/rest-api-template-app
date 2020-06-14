@@ -1,5 +1,6 @@
 {
-  "swagger": {
+  "entryFile": "./src/controllers.ts",
+  "spec": {
     "schemes": [
       "http"
     ],
@@ -11,11 +12,9 @@
       }
     },
     "host": "localhost:5000",
-    "entryFile": "./src/routes.ts",
     "outputDirectory": "./",
     "specMerging": "recursive",
-    "specVersion": 3,
-    "noImplicitAdditionalProperties": "throw-on-extras"
+    "specVersion": 3
   },
   "routes": {
     "authenticationModule": "./src/middleware/authentication.ts",

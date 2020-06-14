@@ -39,4 +39,4 @@ Comments.init(
   },
 );
 
-Comments.sync({ force: false }).then(() => {});
+Comments.sync({ force: false }).then();

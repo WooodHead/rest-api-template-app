@@ -7,6 +7,8 @@ import {
   FieldErrors,
   ValidateError,
   TsoaRoute,
+  TsoaResponse,
+  HttpStatusCodeLiteral,
 } from "tsoa";
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { CommentsController } from "./Services/Comments/CommentsController";
@@ -17,7 +19,7 @@ import { AuthController } from "./Services/Users/AuthController";
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { UsersController } from "./Services/Users/UsersController";
 import { koaAuthentication } from "./middleware/authentication";
-import * as KoaRouter from "koa-router";
+import * as KoaRouter from "@koa/router";
 
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
@@ -28,10 +30,10 @@ const models: TsoaRoute.Models = {
       id: { dataType: "string", required: true },
       comment: { dataType: "string", required: true },
     },
-    additionalProperties: false,
+    additionalProperties: true,
   },
   // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-  BasePageResultCommentDtoArray: {
+  "BasePageResult_CommentDto-Array_": {
     dataType: "refObject",
     properties: {
       count: { dataType: "double", required: true },
@@ -39,7 +41,7 @@ const models: TsoaRoute.Models = {
       limit: { dataType: "double" },
       data: { dataType: "array", array: { ref: "CommentDto" }, required: true },
     },
-    additionalProperties: false,
+    additionalProperties: true,
   },
   // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
   Comment: {
@@ -47,7 +49,7 @@ const models: TsoaRoute.Models = {
     properties: {
       comment: { dataType: "string", required: true },
     },
-    additionalProperties: false,
+    additionalProperties: true,
   },
   // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
   PostDto: {
@@ -58,10 +60,10 @@ const models: TsoaRoute.Models = {
       subject: { dataType: "string", required: true },
       body: { dataType: "string", required: true },
     },
-    additionalProperties: false,
+    additionalProperties: true,
   },
   // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-  BasePageResultPostDtoArray: {
+  "BasePageResult_PostDto-Array_": {
     dataType: "refObject",
     properties: {
       count: { dataType: "double", required: true },
@@ -69,7 +71,7 @@ const models: TsoaRoute.Models = {
       limit: { dataType: "double" },
       data: { dataType: "array", array: { ref: "PostDto" }, required: true },
     },
-    additionalProperties: false,
+    additionalProperties: true,
   },
   // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
   IPost: {
@@ -79,7 +81,7 @@ const models: TsoaRoute.Models = {
       subject: { dataType: "string", required: true },
       body: { dataType: "string", required: true },
     },
-    additionalProperties: false,
+    additionalProperties: true,
   },
   // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
   UserDto: {
@@ -91,7 +93,7 @@ const models: TsoaRoute.Models = {
       lastName: { dataType: "string", required: true },
       email: { dataType: "string", required: true },
     },
-    additionalProperties: false,
+    additionalProperties: true,
   },
   // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
   Registration: {
@@ -103,7 +105,7 @@ const models: TsoaRoute.Models = {
       email: { dataType: "string", required: true },
       password: { dataType: "string", required: true },
     },
-    additionalProperties: false,
+    additionalProperties: true,
   },
   // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
   Login: {
@@ -112,10 +114,10 @@ const models: TsoaRoute.Models = {
       username: { dataType: "string", required: true },
       password: { dataType: "string", required: true },
     },
-    additionalProperties: false,
+    additionalProperties: true,
   },
   // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-  BasePageResultUserDtoArray: {
+  "BasePageResult_UserDto-Array_": {
     dataType: "refObject",
     properties: {
       count: { dataType: "double", required: true },
@@ -123,7 +125,7 @@ const models: TsoaRoute.Models = {
       limit: { dataType: "double" },
       data: { dataType: "array", array: { ref: "UserDto" }, required: true },
     },
-    additionalProperties: false,
+    additionalProperties: true,
   },
   // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
   UpdateUser: {
@@ -134,7 +136,7 @@ const models: TsoaRoute.Models = {
       email: { dataType: "string" },
       role: { dataType: "string" },
     },
-    additionalProperties: false,
+    additionalProperties: true,
   },
   // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 };
@@ -161,7 +163,7 @@ export function RegisterRoutes(router: KoaRouter) {
 
       let validatedArgs: any[] = [];
       try {
-        validatedArgs = getValidatedArgs(args, context);
+        validatedArgs = getValidatedArgs(args, context, next);
       } catch (error) {
         context.status = error.status;
         context.throw(error.status, JSON.stringify({ fields: error.fields }));
@@ -187,7 +189,7 @@ export function RegisterRoutes(router: KoaRouter) {
 
       let validatedArgs: any[] = [];
       try {
-        validatedArgs = getValidatedArgs(args, context);
+        validatedArgs = getValidatedArgs(args, context, next);
       } catch (error) {
         context.status = error.status;
         context.throw(error.status, JSON.stringify({ fields: error.fields }));
@@ -220,7 +222,7 @@ export function RegisterRoutes(router: KoaRouter) {
 
       let validatedArgs: any[] = [];
       try {
-        validatedArgs = getValidatedArgs(args, context);
+        validatedArgs = getValidatedArgs(args, context, next);
       } catch (error) {
         context.status = error.status;
         context.throw(error.status, JSON.stringify({ fields: error.fields }));
@@ -248,7 +250,7 @@ export function RegisterRoutes(router: KoaRouter) {
 
       let validatedArgs: any[] = [];
       try {
-        validatedArgs = getValidatedArgs(args, context);
+        validatedArgs = getValidatedArgs(args, context, next);
       } catch (error) {
         context.status = error.status;
         context.throw(error.status, JSON.stringify({ fields: error.fields }));
@@ -275,7 +277,7 @@ export function RegisterRoutes(router: KoaRouter) {
 
       let validatedArgs: any[] = [];
       try {
-        validatedArgs = getValidatedArgs(args, context);
+        validatedArgs = getValidatedArgs(args, context, next);
       } catch (error) {
         context.status = error.status;
         context.throw(error.status, JSON.stringify({ fields: error.fields }));
@@ -304,7 +306,7 @@ export function RegisterRoutes(router: KoaRouter) {
 
       let validatedArgs: any[] = [];
       try {
-        validatedArgs = getValidatedArgs(args, context);
+        validatedArgs = getValidatedArgs(args, context, next);
       } catch (error) {
         context.status = error.status;
         context.throw(error.status, JSON.stringify({ fields: error.fields }));
@@ -327,7 +329,7 @@ export function RegisterRoutes(router: KoaRouter) {
 
     let validatedArgs: any[] = [];
     try {
-      validatedArgs = getValidatedArgs(args, context);
+      validatedArgs = getValidatedArgs(args, context, next);
     } catch (error) {
       context.status = error.status;
       context.throw(error.status, JSON.stringify({ fields: error.fields }));
@@ -353,7 +355,7 @@ export function RegisterRoutes(router: KoaRouter) {
 
       let validatedArgs: any[] = [];
       try {
-        validatedArgs = getValidatedArgs(args, context);
+        validatedArgs = getValidatedArgs(args, context, next);
       } catch (error) {
         context.status = error.status;
         context.throw(error.status, JSON.stringify({ fields: error.fields }));
@@ -381,7 +383,7 @@ export function RegisterRoutes(router: KoaRouter) {
 
       let validatedArgs: any[] = [];
       try {
-        validatedArgs = getValidatedArgs(args, context);
+        validatedArgs = getValidatedArgs(args, context, next);
       } catch (error) {
         context.status = error.status;
         context.throw(error.status, JSON.stringify({ fields: error.fields }));
@@ -408,7 +410,7 @@ export function RegisterRoutes(router: KoaRouter) {
 
       let validatedArgs: any[] = [];
       try {
-        validatedArgs = getValidatedArgs(args, context);
+        validatedArgs = getValidatedArgs(args, context, next);
       } catch (error) {
         context.status = error.status;
         context.throw(error.status, JSON.stringify({ fields: error.fields }));
@@ -431,7 +433,7 @@ export function RegisterRoutes(router: KoaRouter) {
 
     let validatedArgs: any[] = [];
     try {
-      validatedArgs = getValidatedArgs(args, context);
+      validatedArgs = getValidatedArgs(args, context, next);
     } catch (error) {
       context.status = error.status;
       context.throw(error.status, JSON.stringify({ fields: error.fields }));
@@ -453,7 +455,7 @@ export function RegisterRoutes(router: KoaRouter) {
 
     let validatedArgs: any[] = [];
     try {
-      validatedArgs = getValidatedArgs(args, context);
+      validatedArgs = getValidatedArgs(args, context, next);
     } catch (error) {
       context.status = error.status;
       context.throw(error.status, JSON.stringify({ fields: error.fields }));
@@ -473,7 +475,7 @@ export function RegisterRoutes(router: KoaRouter) {
 
     let validatedArgs: any[] = [];
     try {
-      validatedArgs = getValidatedArgs(args, context);
+      validatedArgs = getValidatedArgs(args, context, next);
     } catch (error) {
       context.status = error.status;
       context.throw(error.status, JSON.stringify({ fields: error.fields }));
@@ -495,7 +497,7 @@ export function RegisterRoutes(router: KoaRouter) {
 
     let validatedArgs: any[] = [];
     try {
-      validatedArgs = getValidatedArgs(args, context);
+      validatedArgs = getValidatedArgs(args, context, next);
     } catch (error) {
       context.status = error.status;
       context.throw(error.status, JSON.stringify({ fields: error.fields }));
@@ -518,7 +520,7 @@ export function RegisterRoutes(router: KoaRouter) {
 
     let validatedArgs: any[] = [];
     try {
-      validatedArgs = getValidatedArgs(args, context);
+      validatedArgs = getValidatedArgs(args, context, next);
     } catch (error) {
       context.status = error.status;
       context.throw(error.status, JSON.stringify({ fields: error.fields }));
@@ -540,7 +542,7 @@ export function RegisterRoutes(router: KoaRouter) {
 
     let validatedArgs: any[] = [];
     try {
-      validatedArgs = getValidatedArgs(args, context);
+      validatedArgs = getValidatedArgs(args, context, next);
     } catch (error) {
       context.status = error.status;
       context.throw(error.status, JSON.stringify({ fields: error.fields }));
@@ -599,7 +601,7 @@ export function RegisterRoutes(router: KoaRouter) {
           }
 
           return Promise.all(promises)
-            .then((users) => succeed(users[0]))
+            .then(users => succeed(users[0]))
             .catch(fail);
         } else {
           for (const name in secMethod) {
@@ -620,6 +622,8 @@ export function RegisterRoutes(router: KoaRouter) {
     );
   }
 
+  // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
   function promiseHandler(
     controllerObj: any,
     promise: Promise<any>,
@@ -628,27 +632,17 @@ export function RegisterRoutes(router: KoaRouter) {
   ) {
     return Promise.resolve(promise)
       .then((data: any) => {
-        if (data || data === false) {
-          context.body = data;
-          context.status = 200;
-        } else {
-          context.status = 204;
-        }
+        let statusCode;
+        let headers;
 
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
         if (isController(controllerObj)) {
-          const headers = controllerObj.getHeaders();
-          Object.keys(headers).forEach((name: string) => {
-            context.set(name, headers[name]);
-          });
+          headers = controllerObj.getHeaders();
 
-          const statusCode = controllerObj.getStatus();
-          if (statusCode) {
-            context.status = statusCode;
-          }
+          statusCode = controllerObj.getStatus();
         }
-        return next();
+        return returnHandler(context, next, statusCode, data, headers);
       })
       .catch((error: any) => {
         context.status = error.status || 500;
@@ -658,9 +652,37 @@ export function RegisterRoutes(router: KoaRouter) {
 
   // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
-  function getValidatedArgs(args: any, context: any): any[] {
+  function returnHandler(
+    context: any,
+    next: () => any,
+    statusCode?: number,
+    data?: any,
+    headers: any = {},
+  ) {
+    if (!context.response.__tsoaResponded) {
+      context.set(headers);
+
+      if (data || data === false) {
+        context.body = data;
+        context.status = 200;
+      } else {
+        context.status = 204;
+      }
+
+      if (statusCode) {
+        context.status = statusCode;
+      }
+
+      context.response.__tsoaResponded = true;
+      return next();
+    }
+  }
+
+  // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+  function getValidatedArgs(args: any, context: any, next: () => any): any[] {
     const errorFields: FieldErrors = {};
-    const values = Object.keys(args).map((key) => {
+    const values = Object.keys(args).map(key => {
       const name = args[key].name;
       switch (args[key].in) {
         case "request":
@@ -672,10 +694,7 @@ export function RegisterRoutes(router: KoaRouter) {
             name,
             errorFields,
             undefined,
-            {
-              noImplicitAdditionalProperties: "throw-on-extras",
-              specVersion: 3,
-            },
+            { noImplicitAdditionalProperties: "ignore" },
           );
         case "path":
           return validationService.ValidateParam(
@@ -684,10 +703,7 @@ export function RegisterRoutes(router: KoaRouter) {
             name,
             errorFields,
             undefined,
-            {
-              noImplicitAdditionalProperties: "throw-on-extras",
-              specVersion: 3,
-            },
+            { noImplicitAdditionalProperties: "ignore" },
           );
         case "header":
           return validationService.ValidateParam(
@@ -696,10 +712,7 @@ export function RegisterRoutes(router: KoaRouter) {
             name,
             errorFields,
             undefined,
-            {
-              noImplicitAdditionalProperties: "throw-on-extras",
-              specVersion: 3,
-            },
+            { noImplicitAdditionalProperties: "ignore" },
           );
         case "body":
           return validationService.ValidateParam(
@@ -707,11 +720,8 @@ export function RegisterRoutes(router: KoaRouter) {
             context.request.body,
             name,
             errorFields,
-            name + ".",
-            {
-              noImplicitAdditionalProperties: "throw-on-extras",
-              specVersion: 3,
-            },
+            undefined,
+            { noImplicitAdditionalProperties: "ignore" },
           );
         case "body-prop":
           return validationService.ValidateParam(
@@ -720,17 +730,27 @@ export function RegisterRoutes(router: KoaRouter) {
             name,
             errorFields,
             "body.",
-            {
-              noImplicitAdditionalProperties: "throw-on-extras",
-              specVersion: 3,
-            },
+            { noImplicitAdditionalProperties: "ignore" },
           );
+        case "res":
+          return responder(context, next);
       }
     });
     if (Object.keys(errorFields).length > 0) {
       throw new ValidateError(errorFields, "");
     }
     return values;
+  }
+
+  // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+  function responder(
+    context: any,
+    next: () => any,
+  ): TsoaResponse<HttpStatusCodeLiteral, unknown> {
+    return function(status, data, headers) {
+      returnHandler(context, next, status, data, headers);
+    };
   }
 
   // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa

@@ -20,9 +20,9 @@
 					"comment"
 				],
 				"type": "object",
-				"additionalProperties": false
+				"additionalProperties": true
 			},
-			"BasePageResultCommentDtoArray": {
+			"BasePageResult_CommentDto-Array_": {
 				"properties": {
 					"count": {
 						"type": "number",
@@ -30,13 +30,11 @@
 					},
 					"page": {
 						"type": "number",
-						"format": "double",
-						"nullable": true
+						"format": "double"
 					},
 					"limit": {
 						"type": "number",
-						"format": "double",
-						"nullable": true
+						"format": "double"
 					},
 					"data": {
 						"items": {
@@ -50,7 +48,7 @@
 					"data"
 				],
 				"type": "object",
-				"additionalProperties": false
+				"additionalProperties": true
 			},
 			"Comment": {
 				"properties": {
@@ -62,7 +60,7 @@
 					"comment"
 				],
 				"type": "object",
-				"additionalProperties": false
+				"additionalProperties": true
 			},
 			"PostDto": {
 				"properties": {
@@ -86,9 +84,9 @@
 					"body"
 				],
 				"type": "object",
-				"additionalProperties": false
+				"additionalProperties": true
 			},
-			"BasePageResultPostDtoArray": {
+			"BasePageResult_PostDto-Array_": {
 				"properties": {
 					"count": {
 						"type": "number",
@@ -96,13 +94,11 @@
 					},
 					"page": {
 						"type": "number",
-						"format": "double",
-						"nullable": true
+						"format": "double"
 					},
 					"limit": {
 						"type": "number",
-						"format": "double",
-						"nullable": true
+						"format": "double"
 					},
 					"data": {
 						"items": {
@@ -116,7 +112,7 @@
 					"data"
 				],
 				"type": "object",
-				"additionalProperties": false
+				"additionalProperties": true
 			},
 			"IPost": {
 				"properties": {
@@ -136,7 +132,7 @@
 					"body"
 				],
 				"type": "object",
-				"additionalProperties": false
+				"additionalProperties": true
 			},
 			"UserDto": {
 				"properties": {
@@ -164,7 +160,7 @@
 					"email"
 				],
 				"type": "object",
-				"additionalProperties": false
+				"additionalProperties": true
 			},
 			"Registration": {
 				"properties": {
@@ -192,7 +188,7 @@
 					"password"
 				],
 				"type": "object",
-				"additionalProperties": false
+				"additionalProperties": true
 			},
 			"Login": {
 				"properties": {
@@ -208,9 +204,9 @@
 					"password"
 				],
 				"type": "object",
-				"additionalProperties": false
+				"additionalProperties": true
 			},
-			"BasePageResultUserDtoArray": {
+			"BasePageResult_UserDto-Array_": {
 				"properties": {
 					"count": {
 						"type": "number",
@@ -218,13 +214,11 @@
 					},
 					"page": {
 						"type": "number",
-						"format": "double",
-						"nullable": true
+						"format": "double"
 					},
 					"limit": {
 						"type": "number",
-						"format": "double",
-						"nullable": true
+						"format": "double"
 					},
 					"data": {
 						"items": {
@@ -238,29 +232,25 @@
 					"data"
 				],
 				"type": "object",
-				"additionalProperties": false
+				"additionalProperties": true
 			},
 			"UpdateUser": {
 				"properties": {
 					"firstName": {
-						"type": "string",
-						"nullable": true
+						"type": "string"
 					},
 					"lastName": {
-						"type": "string",
-						"nullable": true
+						"type": "string"
 					},
 					"email": {
-						"type": "string",
-						"nullable": true
+						"type": "string"
 					},
 					"role": {
-						"type": "string",
-						"nullable": true
+						"type": "string"
 					}
 				},
 				"type": "object",
-				"additionalProperties": false
+				"additionalProperties": true
 			}
 		},
 		"securitySchemes": {
@@ -277,7 +267,8 @@
 		"description": "REST API Template App",
 		"license": {
 			"name": "MIT"
-		}
+		},
+		"contact": {}
 	},
 	"openapi": "3.0.0",
 	"paths": {
@@ -286,14 +277,14 @@
 				"operationId": "GetAllComments",
 				"responses": {
 					"200": {
+						"description": "Ok",
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/BasePageResultCommentDtoArray"
+									"$ref": "#/components/schemas/BasePageResult_CommentDto-Array_"
 								}
 							}
-						},
-						"description": "Ok"
+						}
 					}
 				},
 				"tags": [
@@ -345,14 +336,14 @@
 				"operationId": "CreateComment",
 				"responses": {
 					"200": {
+						"description": "Ok",
 						"content": {
 							"application/json": {
 								"schema": {
 									"$ref": "#/components/schemas/CommentDto"
 								}
 							}
-						},
-						"description": "Ok"
+						}
 					}
 				},
 				"tags": [
@@ -374,6 +365,7 @@
 					}
 				],
 				"requestBody": {
+					"required": true,
 					"content": {
 						"application/json": {
 							"schema": {
@@ -389,14 +381,14 @@
 				"operationId": "GetCommentById",
 				"responses": {
 					"200": {
+						"description": "Ok",
 						"content": {
 							"application/json": {
 								"schema": {
 									"$ref": "#/components/schemas/CommentDto"
 								}
 							}
-						},
-						"description": "Ok"
+						}
 					}
 				},
 				"tags": [
@@ -422,14 +414,14 @@
 				"operationId": "UpdateComment",
 				"responses": {
 					"200": {
+						"description": "Ok",
 						"content": {
 							"application/json": {
 								"schema": {
 									"$ref": "#/components/schemas/CommentDto"
 								}
 							}
-						},
-						"description": "Ok"
+						}
 					}
 				},
 				"tags": [
@@ -451,6 +443,7 @@
 					}
 				],
 				"requestBody": {
+					"required": true,
 					"content": {
 						"application/json": {
 							"schema": {
@@ -464,6 +457,7 @@
 				"operationId": "DeleteComment",
 				"responses": {
 					"200": {
+						"description": "Ok",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -471,8 +465,7 @@
 									"format": "double"
 								}
 							}
-						},
-						"description": "Ok"
+						}
 					}
 				},
 				"tags": [
@@ -500,14 +493,14 @@
 				"operationId": "GetAllPosts",
 				"responses": {
 					"200": {
+						"description": "Ok",
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/BasePageResultPostDtoArray"
+									"$ref": "#/components/schemas/BasePageResult_PostDto-Array_"
 								}
 							}
-						},
-						"description": "Ok"
+						}
 					}
 				},
 				"tags": [
@@ -551,14 +544,14 @@
 				"operationId": "CreatePost",
 				"responses": {
 					"200": {
+						"description": "Ok",
 						"content": {
 							"application/json": {
 								"schema": {
 									"$ref": "#/components/schemas/PostDto"
 								}
 							}
-						},
-						"description": "Ok"
+						}
 					}
 				},
 				"tags": [
@@ -571,6 +564,7 @@
 				],
 				"parameters": [],
 				"requestBody": {
+					"required": true,
 					"content": {
 						"application/json": {
 							"schema": {
@@ -586,14 +580,14 @@
 				"operationId": "GetPostById",
 				"responses": {
 					"200": {
+						"description": "Ok",
 						"content": {
 							"application/json": {
 								"schema": {
 									"$ref": "#/components/schemas/PostDto"
 								}
 							}
-						},
-						"description": "Ok"
+						}
 					}
 				},
 				"tags": [
@@ -615,14 +609,14 @@
 				"operationId": "UpdatePost",
 				"responses": {
 					"200": {
+						"description": "Ok",
 						"content": {
 							"application/json": {
 								"schema": {
 									"$ref": "#/components/schemas/PostDto"
 								}
 							}
-						},
-						"description": "Ok"
+						}
 					}
 				},
 				"tags": [
@@ -644,6 +638,7 @@
 					}
 				],
 				"requestBody": {
+					"required": true,
 					"content": {
 						"application/json": {
 							"schema": {
@@ -657,6 +652,7 @@
 				"operationId": "DeletePost",
 				"responses": {
 					"200": {
+						"description": "Ok",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -664,8 +660,7 @@
 									"format": "double"
 								}
 							}
-						},
-						"description": "Ok"
+						}
 					}
 				},
 				"tags": [
@@ -693,14 +688,14 @@
 				"operationId": "Registration",
 				"responses": {
 					"200": {
+						"description": "Ok",
 						"content": {
 							"application/json": {
 								"schema": {
 									"$ref": "#/components/schemas/UserDto"
 								}
 							}
-						},
-						"description": "Ok"
+						}
 					}
 				},
 				"tags": [
@@ -709,6 +704,7 @@
 				"security": [],
 				"parameters": [],
 				"requestBody": {
+					"required": true,
 					"content": {
 						"application/json": {
 							"schema": {
@@ -724,14 +720,14 @@
 				"operationId": "Login",
 				"responses": {
 					"200": {
+						"description": "Ok",
 						"content": {
 							"application/json": {
 								"schema": {
 									"$ref": "#/components/schemas/UserDto"
 								}
 							}
-						},
-						"description": "Ok"
+						}
 					}
 				},
 				"tags": [
@@ -740,6 +736,7 @@
 				"security": [],
 				"parameters": [],
 				"requestBody": {
+					"required": true,
 					"content": {
 						"application/json": {
 							"schema": {
@@ -755,14 +752,14 @@
 				"operationId": "GetAllUsers",
 				"responses": {
 					"200": {
+						"description": "Ok",
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/BasePageResultUserDtoArray"
+									"$ref": "#/components/schemas/BasePageResult_UserDto-Array_"
 								}
 							}
-						},
-						"description": "Ok"
+						}
 					}
 				},
 				"tags": [
@@ -796,14 +793,14 @@
 				"operationId": "GetUserById",
 				"responses": {
 					"200": {
+						"description": "Ok",
 						"content": {
 							"application/json": {
 								"schema": {
 									"$ref": "#/components/schemas/UserDto"
 								}
 							}
-						},
-						"description": "Ok"
+						}
 					}
 				},
 				"tags": [
@@ -825,6 +822,7 @@
 				"operationId": "UpdateUser",
 				"responses": {
 					"200": {
+						"description": "Ok",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -846,8 +844,7 @@
 									]
 								}
 							}
-						},
-						"description": "Ok"
+						}
 					}
 				},
 				"tags": [
@@ -865,6 +862,7 @@
 					}
 				],
 				"requestBody": {
+					"required": true,
 					"content": {
 						"application/json": {
 							"schema": {
@@ -878,6 +876,7 @@
 				"operationId": "DeleteUser",
 				"responses": {
 					"200": {
+						"description": "Ok",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -885,8 +884,7 @@
 									"format": "double"
 								}
 							}
-						},
-						"description": "Ok"
+						}
 					}
 				},
 				"tags": [

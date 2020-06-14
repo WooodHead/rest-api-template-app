@@ -13,10 +13,11 @@ export const ioSocket = (app: Koa<Koa.DefaultState, Koa.DefaultContext>) => {
   const server = createServer(app.callback());
   const socket = io(server);
 
-  socket.on("connection", (clientSocket) => {
+  socket.on("connection", clientSocket => {
     const { headers } = clientSocket.request;
     const cookie = parse(headers.cookie || "");
     const token = cookie?.token;
+
     if (token) {
       jwt.verify(
         token,
@@ -28,10 +29,11 @@ export const ioSocket = (app: Koa<Koa.DefaultState, Koa.DefaultContext>) => {
             return;
           }
           const userId = decoded.id;
+
           clients.set(clientSocket.id, { userId, clientSocket });
           clientSocket.emit("SET_NAME", decoded.role);
           clientSocket.on("message", (data: string) => {
-            clients.forEach((item) => {
+            clients.forEach(item => {
               if (item.userId === JSON.parse(data).recipientId) {
                 item.clientSocket.emit("message", data);
               }

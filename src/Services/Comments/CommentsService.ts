@@ -13,8 +13,8 @@ export interface IGetCommentsOptions {
 }
 
 export class CommentsService {
-  getComments = ({ UserId, page, limit, my, PostId }: IGetCommentsOptions) => {
-    return Comments.findAll({
+  getComments = ({ UserId, page, limit, my, PostId }: IGetCommentsOptions) =>
+    Comments.findAll({
       limit,
       offset: limit ? page && (page > 0 ? page - 1 : page) * limit : undefined,
       order: [["createdAt", "DESC"]],
@@ -23,11 +23,10 @@ export class CommentsService {
         ...(PostId ? { PostId } : {}),
       },
     });
-  };
 
-  getCommentsByAttr = (where: WhereOptions) => {
-    return Comments.findOne({ where }).then(
-      (result) => {
+  getCommentsByAttr = (where: WhereOptions) =>
+    Comments.findOne({ where }).then(
+      result => {
         if (result === null) {
           return Promise.reject(
             new ApiError(
@@ -40,7 +39,7 @@ export class CommentsService {
 
         return Promise.resolve(result);
       },
-      (e) =>
+      e =>
         Promise.reject(
           new ApiError(
             "ServerError",
@@ -50,11 +49,10 @@ export class CommentsService {
           ),
         ),
     );
-  };
 
-  getCommentsById = (id: number | string) => {
-    return Comments.findByPk(id, {}).then(
-      (result) => {
+  getCommentsById = (id: number | string) =>
+    Comments.findByPk(id, {}).then(
+      result => {
         if (result === null) {
           return Promise.reject(
             new ApiError(
@@ -67,7 +65,7 @@ export class CommentsService {
 
         return Promise.resolve(result);
       },
-      (e) =>
+      e =>
         Promise.reject(
           new ApiError(
             "ServerError",
@@ -77,14 +75,13 @@ export class CommentsService {
           ),
         ),
     );
-  };
-  createComment = async (body: Comment, UserId: string, PostId: string) => {
-    return Comments.create({
+  createComment = (body: Comment, UserId: string, PostId: string) =>
+    Comments.create({
       ...body,
       PostId,
       UserId,
       id: uuid(),
-    }).catch((e) =>
+    }).catch(e =>
       Promise.reject(
         new ApiError(
           "ServerError",
@@ -94,7 +91,6 @@ export class CommentsService {
         ),
       ),
     );
-  };
 
   updateComment = async (
     id: number | string,
@@ -102,10 +98,11 @@ export class CommentsService {
     userId: string,
   ) => {
     const { id: commentId, UserId } = await this.getCommentsById(id);
+
     if (UserId === userId) {
       return Comments.update(body, { where: { id } }).then(
         () => this.getCommentsById(commentId),
-        (e) =>
+        e =>
           Promise.reject(
             new ApiError(
               "ServerError",
@@ -124,8 +121,9 @@ export class CommentsService {
 
   deleteComment = async (id: number | string, userId: string) => {
     const { id: commentId, UserId } = await this.getCommentsById(id);
+
     if (UserId === userId) {
-      return Comments.destroy({ where: { id } }).catch((e) =>
+      return Comments.destroy({ where: { id } }).catch(e =>
         Promise.reject(
           new ApiError(
             "ServerError",

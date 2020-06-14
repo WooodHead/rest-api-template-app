@@ -16,8 +16,8 @@ export class PostsService {
     page?: number;
     limit?: number;
     my?: boolean;
-  }) => {
-    return Posts.findAll({
+  }) =>
+    Posts.findAll({
       limit,
       offset: limit ? page && (page > 0 ? page - 1 : page) * limit : undefined,
       order: [["createdAt", "DESC"]],
@@ -30,10 +30,9 @@ export class PostsService {
         },
       ],
     });
-  };
 
-  getPostsByAttr = (where: WhereOptions) => {
-    return Posts.findOne({
+  getPostsByAttr = (where: WhereOptions) =>
+    Posts.findOne({
       where,
       include: [
         {
@@ -41,7 +40,7 @@ export class PostsService {
         },
       ],
     }).then(
-      (result) => {
+      result => {
         if (result === null) {
           return Promise.reject(
             new ApiError(
@@ -54,7 +53,7 @@ export class PostsService {
 
         return Promise.resolve(result);
       },
-      (e) =>
+      e =>
         Promise.reject(
           new ApiError(
             "ServerError",
@@ -64,17 +63,16 @@ export class PostsService {
           ),
         ),
     );
-  };
 
-  getPostsById = (id: number | string) => {
-    return Posts.findByPk(id, {
+  getPostsById = (id: number | string) =>
+    Posts.findByPk(id, {
       include: [
         {
           model: Comments,
         },
       ],
     }).then(
-      (result) => {
+      result => {
         if (result === null) {
           return Promise.reject(
             new ApiError(
@@ -87,7 +85,7 @@ export class PostsService {
 
         return Promise.resolve(result);
       },
-      (e) =>
+      e =>
         Promise.reject(
           new ApiError(
             "ServerError",
@@ -97,9 +95,8 @@ export class PostsService {
           ),
         ),
     );
-  };
-  createPost = async (body: IPost, UserId: string) => {
-    return Posts.create(
+  createPost = (body: IPost, UserId: string) =>
+    Posts.create(
       {
         ...body,
         UserId,
@@ -112,7 +109,7 @@ export class PostsService {
           },
         ],
       },
-    ).catch((e) =>
+    ).catch(e =>
       Promise.reject(
         new ApiError(
           "ServerError",
@@ -122,7 +119,6 @@ export class PostsService {
         ),
       ),
     );
-  };
 
   updatePost = async (id: number | string, body: IPost, userId: string) => {
     const { id: postId, UserId } = await this.getPostsById(id);
@@ -132,7 +128,7 @@ export class PostsService {
         where: { id: postId },
       }).then(
         () => this.getPostsById(postId),
-        (e) =>
+        e =>
           Promise.reject(
             new ApiError(
               "ServerError",
@@ -151,8 +147,9 @@ export class PostsService {
 
   deletePost = async (id: number | string, userId: string) => {
     const { id: postId, UserId } = await this.getPostsById(id);
+
     if (UserId === userId) {
-      return Posts.destroy({ where: { id } }).catch((e) =>
+      return Posts.destroy({ where: { id } }).catch(e =>
         Promise.reject(
           new ApiError(
             "ServerError",

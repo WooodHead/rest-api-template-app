@@ -20,6 +20,7 @@ export class AuthController extends Controller {
   @Post("/registration")
   registration(@Body() body: Registration): Promise<UserDto> {
     const { email } = body;
+
     if (!email) {
       return Promise.reject(
         new ApiError(
@@ -31,19 +32,21 @@ export class AuthController extends Controller {
       );
     }
 
-    return createUser(body).then((result) => {
-      return getUsersById(result.getDataValue("id"));
-    });
+    return createUser(body).then(result =>
+      getUsersById(result.getDataValue("id")),
+    );
   }
 
   @Post("/login")
   login(@Body() body: Login): Promise<UserDto> {
     const { username, password } = body;
 
-    return getUsersByAttr({ username }).then((result) => {
+    return getUsersByAttr({ username }).then(result => {
       let token = "";
+
       if (result) {
         const { salt, passwordHash, role, id } = result;
+
         if (passwordHash === sha256(password + salt)) {
           token = sign(
             {

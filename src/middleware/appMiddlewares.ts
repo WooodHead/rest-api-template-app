@@ -16,9 +16,7 @@ export const appMiddlewares = (
     )
     .use(
       bodyParser({
-        detectJSON: (ctx) => {
-          return /\.json$/i.test(ctx.path);
-        },
+        detectJSON: ctx => (/\.json$/i).test(ctx.path),
       }),
     )
     .use(helmet())

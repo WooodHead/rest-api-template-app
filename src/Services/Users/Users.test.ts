@@ -4,7 +4,7 @@ import { server } from "../../server";
 
 chai.use(chaiHttp);
 describe("Users", () => {
-  beforeEach(async (done) => {
+  beforeEach(done => {
     // await Users.destroy({});
     done();
   });
@@ -12,7 +12,7 @@ describe("Users", () => {
    * Тест для /GET
    */
   describe("/GET users", () => {
-    it("it should GET all the users", (done) => {
+    it("it should GET all the users", done => {
       chai
         .request(server)
         .get("/api/users")

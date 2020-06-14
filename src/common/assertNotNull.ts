@@ -6,12 +6,11 @@ export function assertNotNull<T>(
   message?: string,
 ): T {
   if (item === null || item === undefined) {
-    message = message ? message : "";
     throw new ApiError(
       "ServerError",
       500,
       ErrorType.ServerErrorException,
-      message,
+      message ? message : "",
     );
   }
 

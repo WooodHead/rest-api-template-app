@@ -32,7 +32,7 @@ export class UsersController extends Controller {
     @Query("limit") limit?: number,
   ): Promise<BasePageResult<UserDto[]>> {
     try {
-      return getAllUsers(page, limit).then((result) => ({
+      return getAllUsers(page, limit).then(result => ({
         page,
         limit,
         count: result.length,

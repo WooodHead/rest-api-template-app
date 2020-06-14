@@ -9,6 +9,7 @@ import { ioSocket } from "./webSockets";
 
 const PORT = 5000;
 const app = new Koa();
+
 ioSocket(app);
 
 // middleware
@@ -16,6 +17,7 @@ appMiddlewares(app);
 
 // Services routes
 const router = new KoaRouter();
+
 RegisterSwagger(router, "/api-docs");
 RegisterRoutes(router);
 

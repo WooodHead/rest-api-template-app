@@ -1,6 +1,7 @@
 import * as path from "path";
 import { Configuration } from "webpack";
 import nodeExternals from "webpack-node-externals";
+import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 
 const config: Configuration = {
   name: "server",
@@ -19,14 +20,37 @@ const config: Configuration = {
   module: {
     rules: [
       {
-        test: /\.ts$/,
+        test: /\.ts?$/,
+        exclude: /node_modules/,
         use: [
-          "ts-loader",
+          { loader: "babel-loader" },
+          { loader: "cache-loader" },
+          {
+            loader: "thread-loader",
+            options: {
+              workers: require("os").cpus().length - 1,
+            },
+          },
+          {
+            loader: "ts-loader",
+            options: {
+              // IMPORTANT! use happyPackMode mode to speed-up compilation and reduce errors reported to webpack
+              happyPackMode: true,
+            },
+          },
+          {
+            loader: "eslint-loader",
+            options: {
+              cache: true,
+              emitWarning: true,
+              // failOnWarning: false,
+            },
+          },
         ],
       },
     ],
   },
-  plugins: [],
+  plugins: [new ForkTsCheckerWebpackPlugin({ async: true })],
 };
 
 module.exports = config;

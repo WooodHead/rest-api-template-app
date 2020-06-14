@@ -7,18 +7,17 @@ import { Posts } from "../Posts/PostsModel";
 import { Registration, UpdateUser, Users } from "./UsersModel";
 
 export class UsersService {
-  getAllUsers = (page?: number, limit?: number) => {
-    return Users.findAll({
+  getAllUsers = (page?: number, limit?: number) =>
+    Users.findAll({
       limit,
       attributes: ["id", "username", "firstName", "lastName", "email"],
       offset: limit ? page && (page > 0 ? page - 1 : page) * limit : undefined,
       order: [["createdAt", "DESC"]],
     });
-  };
 
-  getUsersByAttr = (where: WhereOptions) => {
-    return Users.findOne({ where }).then(
-      (result) => {
+  getUsersByAttr = (where: WhereOptions) =>
+    Users.findOne({ where }).then(
+      result => {
         if (result === null) {
           return Promise.reject(
             new ApiError(
@@ -31,7 +30,7 @@ export class UsersService {
 
         return Promise.resolve(result);
       },
-      (e) =>
+      e =>
         Promise.reject(
           new ApiError(
             "ServerError",
@@ -41,10 +40,9 @@ export class UsersService {
           ),
         ),
     );
-  };
 
-  getUsersById = (id: number | string) => {
-    return Users.findByPk(id, {
+  getUsersById = (id: number | string) =>
+    Users.findByPk(id, {
       attributes: ["id", "username", "firstName", "lastName", "email", "role"],
       include: [
         {
@@ -53,7 +51,7 @@ export class UsersService {
         },
       ],
     }).then(
-      (result) => {
+      result => {
         if (result === null) {
           return Promise.reject(
             new ApiError(
@@ -66,7 +64,7 @@ export class UsersService {
 
         return Promise.resolve(result);
       },
-      (e) =>
+      e =>
         Promise.reject(
           new ApiError(
             "ServerError",
@@ -76,7 +74,6 @@ export class UsersService {
           ),
         ),
     );
-  };
 
   createUser = (body: Registration) => {
     const { password } = body;
@@ -88,7 +85,7 @@ export class UsersService {
       salt,
       passwordHash: sha256(password + salt),
       role: "User",
-    }).catch((e) =>
+    }).catch(e =>
       Promise.reject(
         new ApiError(
           "ServerError",
@@ -100,10 +97,10 @@ export class UsersService {
     );
   };
 
-  updateUser = (id: number | string, body: UpdateUser) => {
-    return Users.update(body, { where: { id } }).then(
+  updateUser = (id: number | string, body: UpdateUser) =>
+    Users.update(body, { where: { id } }).then(
       () => this.getUsersById(id),
-      (e) =>
+      e =>
         Promise.reject(
           new ApiError(
             "ServerError",
@@ -113,10 +110,9 @@ export class UsersService {
           ),
         ),
     );
-  };
 
-  deleteUser = (id: number | string) => {
-    return Users.destroy({ where: { id } }).catch((e) =>
+  deleteUser = (id: number | string) =>
+    Users.destroy({ where: { id } }).catch(e =>
       Promise.reject(
         new ApiError(
           "ServerError",
@@ -126,5 +122,4 @@ export class UsersService {
         ),
       ),
     );
-  };
 }

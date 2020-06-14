@@ -47,14 +47,12 @@ export class CommentsController extends Controller {
         "userId is undefined",
       );
 
-      return getComments({ UserId, page, limit, my, PostId }).then(
-        (result) => ({
-          page,
-          limit,
-          count: result.length,
-          data: result,
-        }),
-      );
+      return getComments({ UserId, page, limit, my, PostId }).then(result => ({
+        page,
+        limit,
+        count: result.length,
+        data: result,
+      }));
     } catch (e) {
       return Promise.reject(
         new ApiError(
